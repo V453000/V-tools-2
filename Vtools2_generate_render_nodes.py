@@ -195,11 +195,100 @@ class Vtools2_generate_render_nodes_Operator(bpy.types.Operator):
         
         # remove existing nodes (if settings allow)
         remove_existing_nodes()
+        
         # generate compositor nodes
+        output_folder = '//OUTPUT\\'
+        nodes = bpy.context.scene.node_tree.nodes
+        x_multiplier = 300
+        y_multiplier = -680
+        y_count = 0
         for viewlayer in bpy.context.scene.view_layers:
             view_layer_type = identify_view_layer(viewlayer.name)
-            print('View layer type is:')
-            print(view_layer_type)
+            x_count = 0
+
+            # view layer node
+            input_node = nodes.new('CompositorNodeRLayers')
+            input_node.name = 'view-layer-' + viewlayer.name
+            input_node.label = input_node.name
+            input_node.location = (x_count * x_multiplier, y_count * y_multiplier)
+            input_node.width = x_multiplier - 30
+            input_node.scene = bpy.context.scene
+            input_node.layer = viewlayer.name
+
+            x_count += 2
+
+            output_node = nodes.new('CompositorNodeOutputFile')
+            output_node.name = 'file-output-' + viewlayer.name
+            output_node.label = output_node.name
+            output_node.location = (x_count*x_multiplier, y_count*y_multiplier)
+            output_node.width = x_multiplier -30 + 150
+
+            output_node.base_path = output_folder + bpy.context.scene.name + '\\' + bpy.context.scene.name + '_' + viewlayer.name
+            
+            # remove output node default input socket
+            output_node.file_slots.remove(output_node.inputs[0])
+            # add output node input socket
+            output_node.file_slots.new(bpy.context.scene.name + '_' + viewlayer.name + '_')
+
+            
+            if view_layer_type == self.shadow_identifier:
+                viewlayer.use_pass_shadow = True
+                shadow_shitter = nodes.new('CompositorNodeGroup')
+                shadow_shitter.node_tree = bpy.data.node_groups['ShadowShitter']
+                shadow_shitter.name = viewlayer.name + '-ShadowShitter'
+                shadow_shitter.label = shadow_shitter.name
+                x_count -= 1
+                shadow_shitter.location = (x_count*x_multiplier, y_count*y_multiplier)
+                x_count += 1
+                shadow_shitter.width = x_multiplier - 30
+
+                index_shadow = input_node.outputs.find('Shadow')
+
+                bpy.context.scene.node_tree.links.new(input_node.outputs[index_shadow], shadow_shitter.inputs[0])
+                bpy.context.scene.node_tree.links.new(shadow_shitter.outputs[0], output_node.inputs[0])
+
+            elif view_layer_type == self.height_identifier:
+                viewlayer.material_override = bpy.data.materials['HEIGHT']
+                height_alpha_over_black_node = bpy.context.scene.node_tree.nodes.new('CompositorNodeAlphaOver')
+                height_alpha_over_black_node.name = viewlayer.name + '-Alpha-Over-Black'
+                height_alpha_over_black_node.label = height_alpha_over_black_node.name
+                height_alpha_over_black_node.location = ( input_node.location[0] + x_multiplier, input_node.location[1])
+                height_alpha_over_black_node.width = x_multiplier - 30
+                height_alpha_over_black_node.inputs[1].default_value = (0, 0, 0, 1)
+
+                bpy.context.scene.node_tree.links.new(input_node.outputs[0], height_alpha_over_black_node.inputs[2])
+                bpy.context.scene.node_tree.links.new(height_alpha_over_black_node.outputs[0], output_node.inputs[0])
+
+            else:
+                if view_layer_type == self.AO_identifier:
+                    viewlayer.use_pass_ambient_occlusion = True
+                    output_node_AO = nodes.new('CompositorNodeOutputFile')
+                    output_node_AO.name = 'file-output-' + viewlayer.name + '-AO'
+                    output_node_AO.label = 'file-output-' + viewlayer.name + '-AO'
+                    output_node_AO.location = (x_count*x_multiplier, y_count*y_multiplier - 140 - 180)
+                    output_node_AO.width = x_multiplier-30+150
+
+                    output_node_AO.file_slots.remove(output_node_AO.inputs[0])
+                    output_node_AO.file_slots.new(bpy.context.scene.name + '_' + viewlayer.name + '-AO' + '_')
+
+                    output_node_AO.base_path = output_folder + bpy.context.scene.name + '\\' + bpy.context.scene.name + '_' + viewlayer.name + '-AO'
+
+                    index_AO = input_node.outputs.find('AO')
+                    bpy.context.scene.node_tree.links.new(input_node.outputs[index_AO], output_node_AO.inputs[0])
+
+                # main output link
+                bpy.context.scene.node_tree.links.new(input_node.outputs[0], output_node.inputs[0])
+
+            y_count += 1
+
+            
+
+            
+            
+            
+
+
+
 
 
         return {'FINISHED'}
