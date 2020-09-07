@@ -37,6 +37,26 @@ class Vtools2_generate_render_nodes_Operator(bpy.types.Operator):
     default = 'Keep'
     )
 
+    AO_identifier = bpy.props.StringProperty(
+    name = 'AO Identifier',
+    description = 'Suffix or appendix in the name of RenderLayer for rendering AO.',
+    default = 'main'
+    )
+    shadow_identifier = bpy.props.StringProperty(
+    name = 'Shadow Identifier',
+    description = 'Suffix or appendix in the name of RenderLayer for rendering Shadow.',
+    default = 'shadow'
+    )
+    height_identifier = bpy.props.StringProperty(
+    name = 'Height Identifier',
+    description = 'Suffix or appendix in the name of RenderLayer for rendering Height.',
+    default = 'height'
+    )
+    Znormal_identifier = bpy.props.StringProperty(
+    name = 'Z-Normal Identifier',
+    description = 'Suffix or appendix in the name of RenderLayer for rendering Z-Normal.',
+    default = 'Z-normal'
+    )
 
     def execute(self, context):
         def generate_HEIGHT_material():
@@ -134,6 +154,33 @@ class Vtools2_generate_render_nodes_Operator(bpy.types.Operator):
                 for node in bpy.context.scene.node_tree.nodes:
                     bpy.context.scene.node_tree.nodes.remove(node)
 
+        def identify_view_layer(view_layer_name):
+            AO_identifier      = '-' + self.AO_identifier
+            shadow_identifier  = '-' + self.shadow_identifier
+            height_identifier  = '-' + self.height_identifier
+            Znormal_identifier = '-' + self.Znormal_identifier
+
+            view_layer_appendix_AO      = view_layer_name[-len(AO_identifier):]
+            view_layer_appendix_shadow  = view_layer_name[-len(shadow_identifier):]
+            view_layer_appendix_height  = view_layer_name[-len(height_identifier):]
+            view_layer_appendix_Znormal = view_layer_name[-len(Znormal_identifier):]
+
+            if view_layer_appendix_AO == AO_identifier:
+                view_layer_type = self.AO_identifier
+            elif view_layer_appendix_shadow == shadow_identifier:
+                view_layer_type = self.shadow_identifier
+            elif view_layer_appendix_height == height_identifier:
+                view_layer_type = self.height_identifier
+            elif  view_layer_appendix_Znormal == Znormal_identifier:
+                view_layer_type = self.Znormal_identifier
+            else:
+                view_layer_type = ''
+
+            return view_layer_type
+
+
+
+
         # basic settings
         bpy.context.scene.use_nodes = True
         # generate HEIGHT material (if settings allow)
@@ -149,6 +196,10 @@ class Vtools2_generate_render_nodes_Operator(bpy.types.Operator):
         # remove existing nodes (if settings allow)
         remove_existing_nodes()
         # generate compositor nodes
+        for viewlayer in bpy.context.scene.view_layers:
+            view_layer_type = identify_view_layer(viewlayer.name)
+            print('View layer type is:')
+            print(view_layer_type)
 
 
         return {'FINISHED'}
