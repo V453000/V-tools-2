@@ -16,10 +16,19 @@ class Vtools2_generate_render_nodes_Operator(bpy.types.Operator):
     ],
     default = 'Keep'
     )
+    regenerate_shadow_shitter = bpy.props.EnumProperty(
+    name = 'Regenerate Shadow Shitter',
+    description = 'Delete the nodes in current SHADOW Shitter and create new ones.',
+    items = [
+        #identifier   #name         #desc  #icon        #ID
+        ('Regenerate', 'Regenerate', '' ,  'CANCEL'     , 0),
+        ('Keep'      , 'Keep'      , '' ,  'FILE_TICK'  , 1)
+    ],
+    default = 'Keep'
+    )
 
 
     def execute(self, context):
-        bpy.ops.view3d.snap_cursor_to_center()
         def generate_HEIGHT_material():
             # check if HEIGHT material exists and remember it
             if bpy.data.materials.get('HEIGHT') is None:
@@ -69,18 +78,54 @@ class Vtools2_generate_render_nodes_Operator(bpy.types.Operator):
                 heightmtl.node_tree.links.new(mapping_node.outputs[0], separateXYZ_node.inputs[0])
                 heightmtl.node_tree.links.new(separateXYZ_node.outputs[2], emission_node.inputs[0])
                 heightmtl.node_tree.links.new(emission_node.outputs[0], material_output.inputs[0])
+            
+        def generate_shadow_shitter():
+            # destroy shadow shitter first, if set to 'Regenerate'
+            if self.regenerate_shadow_shitter == 'Regenerate':
+                if bpy.data.node_groups.get('ShadowShitter') is not None:
+                    bpy.data.node_groups.remove(bpy.data.node_groups['ShadowShitter'])
+            # check if shadow shitter exists, if not, create it
+            if bpy.data.node_groups.get('ShadowShitter') is None:
+                # create Shadow Shitter
+                shadow_shitter = bpy.data.node_groups.new(type = 'CompositorNodeTree', name = 'ShadowShitter')
+                # add node group sockets
+                shadow_shitter.inputs.new('NodeSocketFloat', 'Shadow Pass')
+                shadow_shitter.outputs.new('NodeSocketFloat', 'Shadow')
+                # add nodes
+                input_node = shadow_shitter.nodes.new('NodeGroupInput')
+                input_node.location = (-200,0)
 
-            # link height material nodes
-            heightmtl.node_tree.links.new(geometry_node.outputs[0], mapping_node.inputs[0])
-            heightmtl.node_tree.links.new(mapping_node.outputs[0], separateXYZ_node.inputs[0])
-            heightmtl.node_tree.links.new(separateXYZ_node.outputs[2], emission_node.inputs[0])
-            heightmtl.node_tree.links.new(emission_node.outputs[0], material_output.inputs[0])
-        
+                output_node = shadow_shitter.nodes.new('NodeGroupOutput')
+                output_node.location = (600,0)
+                
+                alpha_over_node = shadow_shitter.nodes.new(type="CompositorNodeAlphaOver")
+                alpha_over_node.name = 'ShadowShitter-alpha-over-node'
+                alpha_over_node.label = 'ShadowShitter-alpha-over-node'
+                alpha_over_node.location = (0,0)
+
+                invert_node = shadow_shitter.nodes.new(type="CompositorNodeInvert")
+                invert_node.name = 'ShadowShitter-invert-node'
+                invert_node.label = 'ShadowShitter-invert-node'
+                invert_node.location = (200,0)
+
+                set_alpha_node = shadow_shitter.nodes.new(type="CompositorNodeSetAlpha")
+                set_alpha_node.name = 'ShadowShitter-set-alpha-node'
+                set_alpha_node.label = 'ShadowShitter-set-alpha-node'
+                set_alpha_node.location = (400,0)
+
+                # link shadow shitter nodes
+                shadow_shitter.links.new(input_node.outputs[0], alpha_over_node.inputs[2])
+                shadow_shitter.links.new(alpha_over_node.outputs[0], invert_node.inputs[1])
+                shadow_shitter.links.new(invert_node.outputs[0], set_alpha_node.inputs[1])
+                shadow_shitter.links.new(set_alpha_node.outputs[0], output_node.inputs[0])
+
+
         # generate HEIGHT material (if settings allow)
         generate_HEIGHT_material()
         # generate Z-normal material (if settings allow)
         # generate Normal material (if settings allow)
         # generate ShadowShitter material (if settings allow)
+        generate_shadow_shitter()
 
         # set material override on view layers that need it
         # set shadow pass on shadow view layers
