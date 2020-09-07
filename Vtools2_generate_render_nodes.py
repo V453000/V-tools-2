@@ -134,6 +134,8 @@ class Vtools2_generate_render_nodes_Operator(bpy.types.Operator):
                 for node in bpy.context.scene.node_tree.nodes:
                     bpy.context.scene.node_tree.nodes.remove(node)
 
+        # basic settings
+        bpy.context.scene.use_nodes = True
         # generate HEIGHT material (if settings allow)
         generate_HEIGHT_material()
         # generate Z-normal material (if settings allow)
