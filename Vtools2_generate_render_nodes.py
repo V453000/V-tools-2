@@ -6,6 +6,16 @@ class Vtools2_generate_render_nodes_Operator(bpy.types.Operator):
     bl_description = 'Generate Render Nodes from View Layers'
     bl_options = {'REGISTER', 'UNDO'}
 
+    remove_existing_nodes = bpy.props.EnumProperty(
+    name = 'Remove Existing Nodes',
+    description = 'Choose whether the function should remove existing nodes, or only add new.',
+    items = [
+        #identifier   #name         #desc  #icon        #ID
+        ('Regenerate', 'Regenerate', '' ,  'CANCEL'     , 0),
+        ('Keep'      , 'Keep'      , '' ,  'FILE_TICK'  , 1)
+    ],
+    default = 'Regenerate'
+    )
     regenerate_height_material = bpy.props.EnumProperty(
     name = 'Regenerate HEIGHT material',
     description = 'Delete the nodes in current HEIGHT material and create new ones.',
@@ -119,6 +129,10 @@ class Vtools2_generate_render_nodes_Operator(bpy.types.Operator):
                 shadow_shitter.links.new(invert_node.outputs[0], set_alpha_node.inputs[1])
                 shadow_shitter.links.new(set_alpha_node.outputs[0], output_node.inputs[0])
 
+        def remove_existing_nodes():
+            if self.remove_existing_nodes == 'Regenerate':
+                for node in bpy.context.scene.node_tree.nodes:
+                    bpy.context.scene.node_tree.nodes.remove(node)
 
         # generate HEIGHT material (if settings allow)
         generate_HEIGHT_material()
@@ -130,6 +144,8 @@ class Vtools2_generate_render_nodes_Operator(bpy.types.Operator):
         # set material override on view layers that need it
         # set shadow pass on shadow view layers
         
+        # remove existing nodes (if settings allow)
+        remove_existing_nodes()
         # generate compositor nodes
 
 
