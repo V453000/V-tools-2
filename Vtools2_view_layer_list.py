@@ -35,6 +35,7 @@ class PT_ViewLayerListPanel(bpy.types.Panel):
         row = layout.row()
         row.operator('view_layer_list.new_item', text = 'New')
         row.operator('view_layer_list.delete_item', text = 'Delete')
+        row.operator('view_layer_list.refresh', text = 'Refresh')
 
         if scene.view_layer_list_index >= 0 and scene.view_layer_list:
             item = scene.view_layer_list[scene.view_layer_list_index]
@@ -72,3 +73,18 @@ class LIST_OT_ViewLayerListDeleteItem(bpy.types.Operator):
         context.scene.view_layer_list_index = min(max(0, index - 1), len(view_layer_list) - 1)
 
         return{'FINISHED'}
+
+class LIST_OT_ViewLayerListRefresh(bpy.types.Operator):
+    """Refresh the list based on current View Layers"""
+
+    bl_label = 'Refresh the View Layer List'
+    bl_idname = 'view_layer_list.refresh'
+
+    def execute(self, context):
+        context.scene.view_layer_list.clear()
+
+        for viewlayer in context.scene.view_layers:
+            item = context.scene.view_layer_list.add()
+            item.name = viewlayer.name
+
+        return {'FINISHED'}
