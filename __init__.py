@@ -29,6 +29,7 @@ bl_info = {
 
 
 import bpy
+from bpy.app.handlers import persistent
 
 # updater ops import, all setup in this file
 from . import addon_updater_ops
@@ -151,8 +152,10 @@ classes = (
     Vtools2_generate_render_nodes_Panel
 )
 
-
-
+@persistent
+def view_layer_list_refresh(scene):
+    print('Refreshed list')
+    bpy.ops.view_layer_list.refresh()
 
 def register():
     # addon updater code and configurations
@@ -160,6 +163,7 @@ def register():
     # so that users can revert back to a working version
     addon_updater_ops.register(bl_info)
 
+    bpy.app.handlers.load_post.append(view_layer_list_refresh)
 
     bpy.utils.register_class(ViewLayerUL_List)
     bpy.utils.register_class(ViewLayerListItem)
@@ -181,6 +185,8 @@ def unregister():
     del bpy.types.Scene.view_layer_list
     del bpy.types.Scene.view_layer_list_index
     
+    bpy.app.handlers.load_post.remove(view_layer_list_refresh)
+
     bpy.utils.unregister_class(ViewLayerListItem)
     bpy.utils.unregister_class(ViewLayerUL_List)
     bpy.utils.unregister_class(PT_ViewLayerListPanel)
