@@ -17,15 +17,15 @@
 # ##### END GPL LICENSE BLOCK #####
 
 bl_info = {
-	"name":        'V-tools-2',
-	"description": 'Various tools.',
-	"author":      'V453000',
-	"version":     (2, 0, 0),
-	"blender":     (2, 90, 0),
-	"location":    "View 3D > Tool Shelf > Demo Updater",
-	"warning":     "",  # used for warning icon and text in addons panel
-	"category":    "User"
-	}
+    "name":        'V-tools-2',
+    "description": 'Various tools.',
+    "author":      'V453000',
+    "version":     (2, 0, 0),
+    "blender":     (2, 90, 0),
+    "location":    "View 3D > Tool Shelf > Demo Updater",
+    "warning":     "",  # used for warning icon and text in addons panel
+    "category":    "User"
+    }
 
 
 import bpy
@@ -34,104 +34,105 @@ from bpy.app.handlers import persistent
 # updater ops import, all setup in this file
 from . import addon_updater_ops
 class OBJECT_PT_DemoUpdaterPanel(bpy.types.Panel):
-	"""Panel to demo popup notice and ignoring functionality"""
-	bl_label = "Updater Demo Panel"
-	bl_idname = "OBJECT_PT_hello"
-	bl_space_type = 'VIEW_3D'
-	bl_region_type = 'TOOLS' if bpy.app.version < (2, 80) else 'UI'
-	bl_context = "objectmode"
-	bl_category = "Tools"
+    """Panel to demo popup notice and ignoring functionality"""
+    bl_label = "Updater Demo Panel"
+    bl_idname = "OBJECT_PT_hello"
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'TOOLS' if bpy.app.version < (2, 80) else 'UI'
+    bl_context = "objectmode"
+    bl_category = "Tools"
 
-	def draw(self, context):
-		layout = self.layout
+    def draw(self, context):
+        layout = self.layout
 
-		# Call to check for update in background
-		# note: built-in checks ensure it runs at most once
-		# and will run in the background thread, not blocking
-		# or hanging blender
-		# Internally also checks to see if auto-check enabled
-		# and if the time interval has passed
-		addon_updater_ops.check_for_update_background()
+        # Call to check for update in background
+        # note: built-in checks ensure it runs at most once
+        # and will run in the background thread, not blocking
+        # or hanging blender
+        # Internally also checks to see if auto-check enabled
+        # and if the time interval has passed
+        addon_updater_ops.check_for_update_background()
 
 
-		layout.label(text="Demo Updater Addon")
-		layout.label(text="")
+        layout.label(text="Demo Updater Addon")
+        layout.label(text="")
 
-		col = layout.column()
-		col.scale_y = 0.7
-		col.label(text="If an update is ready,")
-		col.label(text="popup triggered by opening")
-		col.label(text="this panel, plus a box ui")
+        col = layout.column()
+        col.scale_y = 0.7
+        col.label(text="If an update is ready,")
+        col.label(text="popup triggered by opening")
+        col.label(text="this panel, plus a box ui")
 
-		# could also use your own custom drawing
-		# based on shared variables
-		if addon_updater_ops.updater.update_ready == True:
-			layout.label(text="Custom update message", icon="INFO")
-		layout.label(text="")
+        # could also use your own custom drawing
+        # based on shared variables
+        if addon_updater_ops.updater.update_ready == True:
+            layout.label(text="Custom update message", icon="INFO")
+        layout.label(text="")
 
-		# call built-in function with draw code/checks
-		addon_updater_ops.update_notice_box_ui(self, context)
+        # call built-in function with draw code/checks
+        addon_updater_ops.update_notice_box_ui(self, context)
 @addon_updater_ops.make_annotations
 class VTools_preferences(bpy.types.AddonPreferences):
-	"""Demo bare-bones preferences"""
-	bl_idname = __package__
+    """Demo bare-bones preferences"""
+    bl_idname = __package__
 
-	# addon updater preferences
+    # addon updater preferences
 
-	auto_check_update = bpy.props.BoolProperty(
-		name="Auto-check for Update",
-		description="If enabled, auto-check for updates using an interval",
-		default=False,
-		)
-	updater_intrval_months = bpy.props.IntProperty(
-		name='Months',
-		description="Number of months between checking for updates",
-		default=7,
-		min=0
-		)
-	updater_intrval_days = bpy.props.IntProperty(
-		name='Days',
-		description="Number of days between checking for updates",
-		default=7,
-		min=0,
-		max=31
-		)
-	updater_intrval_hours = bpy.props.IntProperty(
-		name='Hours',
-		description="Number of hours between checking for updates",
-		default=0,
-		min=0,
-		max=23
-		)
-	updater_intrval_minutes = bpy.props.IntProperty(
-		name='Minutes',
-		description="Number of minutes between checking for updates",
-		default=0,
-		min=0,
-		max=59
-		)
+    auto_check_update = bpy.props.BoolProperty(
+        name="Auto-check for Update",
+        description="If enabled, auto-check for updates using an interval",
+        default=False,
+        )
+    updater_intrval_months = bpy.props.IntProperty(
+        name='Months',
+        description="Number of months between checking for updates",
+        default=7,
+        min=0
+        )
+    updater_intrval_days = bpy.props.IntProperty(
+        name='Days',
+        description="Number of days between checking for updates",
+        default=7,
+        min=0,
+        max=31
+        )
+    updater_intrval_hours = bpy.props.IntProperty(
+        name='Hours',
+        description="Number of hours between checking for updates",
+        default=0,
+        min=0,
+        max=23
+        )
+    updater_intrval_minutes = bpy.props.IntProperty(
+        name='Minutes',
+        description="Number of minutes between checking for updates",
+        default=0,
+        min=0,
+        max=59
+        )
 
-	def draw(self, context):
-		layout = self.layout
+    def draw(self, context):
+        layout = self.layout
 
-		# works best if a column, or even just self.layout
-		mainrow = layout.row()
-		col = mainrow.column()
+        # works best if a column, or even just self.layout
+        mainrow = layout.row()
+        col = mainrow.column()
 
-		# updater draw function
-		# could also pass in col as third arg
-		addon_updater_ops.update_settings_ui(self, context)
+        # updater draw function
+        # could also pass in col as third arg
+        addon_updater_ops.update_settings_ui(self, context)
 
-		# Alternate draw function, which is more condensed and can be
-		# placed within an existing draw function. Only contains:
-		#   1) check for update/update now buttons
-		#   2) toggle for auto-check (interval will be equal to what is set above)
-		# addon_updater_ops.update_settings_ui_condensed(self, context, col)
+        # Alternate draw function, which is more condensed and can be
+        # placed within an existing draw function. Only contains:
+        #   1) check for update/update now buttons
+        #   2) toggle for auto-check (interval will be equal to what is set above)
+        # addon_updater_ops.update_settings_ui_condensed(self, context, col)
 
-		# Adding another column to help show the above condensed ui as one column
-		# col = mainrow.column()
-		# col.scale_y = 2
-		# col.operator("wm.url_open","Open webpage ").url=addon_updater_ops.updater.website
+        # Adding another column to help show the above condensed ui as one column
+        # col = mainrow.column()
+        # col.scale_y = 2
+        # col.operator("wm.url_open","Open webpage ").url=addon_updater_ops.updater.website
+
 
 # --------------------------------------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------------
