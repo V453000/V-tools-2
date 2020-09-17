@@ -133,11 +133,20 @@ class VTools_preferences(bpy.types.AddonPreferences):
 		# col.scale_y = 2
 		# col.operator("wm.url_open","Open webpage ").url=addon_updater_ops.updater.website
 
+# --------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------
+# ----------   E N D   O F   U P D A T E R   S T U F F ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------
 
 
 # V-tools-2 classes import
 from . Vtools2_generate_render_nodes       import Vtools2_generate_render_nodes_Operator
-from . Vtools2_generate_render_nodes_panel import Vtools2_generate_render_nodes_Panel
+from . Vtools2_generate_render_nodes       import Vtools2_generate_render_nodes_Panel
 from . Vtools2_view_layer_list             import ViewLayerListItem
 from . Vtools2_view_layer_list             import ViewLayerUL_List
 from . Vtools2_view_layer_list             import PT_ViewLayerListPanel
@@ -147,9 +156,15 @@ from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListRefresh
 
 classes = (
     OBJECT_PT_DemoUpdaterPanel,
-
     Vtools2_generate_render_nodes_Operator,
-    Vtools2_generate_render_nodes_Panel
+    Vtools2_generate_render_nodes_Panel,
+
+    ViewLayerUL_List,
+    ViewLayerListItem,
+    PT_ViewLayerListPanel,
+    LIST_OT_ViewLayerListNewItem,
+    LIST_OT_ViewLayerListDeleteItem,
+    LIST_OT_ViewLayerListRefresh,
 )
 
 @persistent
@@ -163,23 +178,14 @@ def register():
     # so that users can revert back to a working version
     addon_updater_ops.register(bl_info)
 
-    bpy.app.handlers.load_post.append(view_layer_list_refresh)
-
-    bpy.utils.register_class(ViewLayerUL_List)
-    bpy.utils.register_class(ViewLayerListItem)
-    #bpy.utils.register_class(PT_ViewLayerListPanel) Disabled for now
-    bpy.utils.register_class(LIST_OT_ViewLayerListNewItem)
-    bpy.utils.register_class(LIST_OT_ViewLayerListDeleteItem)
-    bpy.utils.register_class(LIST_OT_ViewLayerListRefresh)
-    
-    bpy.types.Scene.view_layer_list = bpy.props.CollectionProperty(type = ViewLayerListItem)
-    bpy.types.Scene.view_layer_list_index = bpy.props.IntProperty(name = "Index for view_layer_list", default = 0)
-    
-
     # register the example panel, to show updater buttons
     for cls in classes:
         addon_updater_ops.make_annotations(cls) # to avoid blender 2.8 warnings
         bpy.utils.register_class(cls)
+    
+    bpy.app.handlers.load_post.append(view_layer_list_refresh)
+    bpy.types.Scene.view_layer_list = bpy.props.CollectionProperty(type = ViewLayerListItem)
+    bpy.types.Scene.view_layer_list_index = bpy.props.IntProperty(name = "Index for view_layer_list", default = 0)
 
 def unregister():
     del bpy.types.Scene.view_layer_list
@@ -199,5 +205,5 @@ def unregister():
 
     # register the example panel, to show updater buttons
     for cls in reversed(classes):
-	    bpy.utils.unregister_class(cls)
+        bpy.utils.unregister_class(cls)
 
