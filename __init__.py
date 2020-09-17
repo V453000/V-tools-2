@@ -157,9 +157,11 @@ from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListRefresh
 
 classes = (
     OBJECT_PT_DemoUpdaterPanel,
+    # Generate Render Nodes
     Vtools2_generate_render_nodes_Operator,
     Vtools2_generate_render_nodes_Panel,
 
+    # View Layer List
     ViewLayerUL_List,
     ViewLayerListItem,
     PT_ViewLayerListPanel,
@@ -179,32 +181,28 @@ def register():
     # so that users can revert back to a working version
     addon_updater_ops.register(bl_info)
 
-    # register the example panel, to show updater buttons
+    # register classes from list
     for cls in classes:
         addon_updater_ops.make_annotations(cls) # to avoid blender 2.8 warnings
         bpy.utils.register_class(cls)
     
+    # special handler for refreshing view layer list
     bpy.app.handlers.load_post.append(view_layer_list_refresh)
+    # creating view layer list props
     bpy.types.Scene.view_layer_list = bpy.props.CollectionProperty(type = ViewLayerListItem)
     bpy.types.Scene.view_layer_list_index = bpy.props.IntProperty(name = "Index for view_layer_list", default = 0)
 
 def unregister():
+    # deleting view layer list props
     del bpy.types.Scene.view_layer_list
     del bpy.types.Scene.view_layer_list_index
-    
+    # special handler for refreshing view layer list
     bpy.app.handlers.load_post.remove(view_layer_list_refresh)
-
-    bpy.utils.unregister_class(ViewLayerListItem)
-    bpy.utils.unregister_class(ViewLayerUL_List)
-    #bpy.utils.unregister_class(PT_ViewLayerListPanel) Disabled for now
-    bpy.utils.unregister_class(LIST_OT_ViewLayerListNewItem)
-    bpy.utils.unregister_class(LIST_OT_ViewLayerListDeleteItem)
-    bpy.utils.unregister_class(LIST_OT_ViewLayerListRefresh)
 
     # addon updater unregister
     addon_updater_ops.unregister()
 
-    # register the example panel, to show updater buttons
+    # unregister classes from list
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
 
