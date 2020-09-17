@@ -167,7 +167,7 @@ def register():
 
     bpy.utils.register_class(ViewLayerUL_List)
     bpy.utils.register_class(ViewLayerListItem)
-    bpy.utils.register_class(PT_ViewLayerListPanel)
+    #bpy.utils.register_class(PT_ViewLayerListPanel) Disabled for now
     bpy.utils.register_class(LIST_OT_ViewLayerListNewItem)
     bpy.utils.register_class(LIST_OT_ViewLayerListDeleteItem)
     bpy.utils.register_class(LIST_OT_ViewLayerListRefresh)
@@ -189,7 +189,7 @@ def unregister():
 
     bpy.utils.unregister_class(ViewLayerListItem)
     bpy.utils.unregister_class(ViewLayerUL_List)
-    bpy.utils.unregister_class(PT_ViewLayerListPanel)
+    #bpy.utils.unregister_class(PT_ViewLayerListPanel) Disabled for now
     bpy.utils.unregister_class(LIST_OT_ViewLayerListNewItem)
     bpy.utils.unregister_class(LIST_OT_ViewLayerListDeleteItem)
     bpy.utils.unregister_class(LIST_OT_ViewLayerListRefresh)
