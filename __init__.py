@@ -154,6 +154,7 @@ from . Vtools2_view_layer_list             import PT_ViewLayerListPanel
 from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListNewItem
 from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListDeleteItem
 from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListRefresh
+from . properties_panels                   import properties_view_layer_panel
 
 classes = (
     OBJECT_PT_DemoUpdaterPanel,
@@ -168,6 +169,8 @@ classes = (
     LIST_OT_ViewLayerListNewItem,
     LIST_OT_ViewLayerListDeleteItem,
     LIST_OT_ViewLayerListRefresh,
+
+    # Properties panels
 )
 
 @persistent
