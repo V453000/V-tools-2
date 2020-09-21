@@ -171,6 +171,7 @@ classes = (
     LIST_OT_ViewLayerListRefresh,
 
     # Properties panels
+    properties_view_layer_panel,
 )
 
 @persistent
