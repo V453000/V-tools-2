@@ -165,7 +165,7 @@ classes = (
     # View Layer List
     ViewLayerUL_List,
     ViewLayerListItem,
-    PT_ViewLayerListPanel,
+    #PT_ViewLayerListPanel,
     LIST_OT_ViewLayerListNewItem,
     LIST_OT_ViewLayerListDeleteItem,
     LIST_OT_ViewLayerListRefresh,
