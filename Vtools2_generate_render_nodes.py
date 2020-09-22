@@ -132,8 +132,8 @@ class Vtools2_generate_render_nodes_Operator(bpy.types.Operator):
                 # create Shadow Shitter
                 shadow_shitter = bpy.data.node_groups.new(type = 'CompositorNodeTree', name = 'ShadowShitter')
                 # add node group sockets
-                shadow_shitter.inputs.new('NodeSocketFloat', 'Shadow Pass')
-                shadow_shitter.outputs.new('NodeSocketFloat', 'Shadow')
+                shadow_shitter.inputs.new('NodeSocketColor', 'Shadow Pass')
+                shadow_shitter.outputs.new('NodeSocketColor', 'Shadow')
                 # add nodes
                 input_node = shadow_shitter.nodes.new('NodeGroupInput')
                 input_node.location = (-200,0)
