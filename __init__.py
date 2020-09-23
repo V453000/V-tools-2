@@ -156,6 +156,7 @@ from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListRefresh
 from . Vtools2_images_pack                 import Vtools2_images_pack
 from . Vtools2_images_unpack               import Vtools2_images_unpack
 from . Vtools2_save_backup                 import Vtools2_save_backup
+from . Vtools2_default_render_settings     import Vtools2_default_render_settings
 from . properties_panels                   import properties_view_layer_panel
 from . tools_panel                         import Vtools2_tools_panel
 
@@ -178,6 +179,9 @@ classes = (
 
     # save backup
     Vtools2_save_backup,
+
+    # default render settings
+    Vtools2_default_render_settings,
 
     # Properties panels
     properties_view_layer_panel,
