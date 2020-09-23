@@ -4,7 +4,7 @@ class ViewLayerListItem(bpy.types.PropertyGroup):
     """The list of data"""
     name: bpy.props.StringProperty( name = 'ViewLayerName', description = 'Name of the View Layer.', default = 'Untitled')
 
-class ViewLayerUL_List(bpy.types.UIList):
+class VTOOLS2_UL_View_Layer_List(bpy.types.UIList):
     """The list widget"""
     def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
         # centralized custom icon definion as here could be code to decide what should the icon be
@@ -16,11 +16,11 @@ class ViewLayerUL_List(bpy.types.UIList):
             layout.alignment = 'CENTER'
             layout.label(text = '', icon = custom_icon)
 
-class PT_ViewLayerListPanel(bpy.types.Panel):
+class VTOOLS2_PT_View_Layer_List_Panel(bpy.types.Panel):
     """The panel to be put in Properties window / View Layer tab"""
 
     bl_label = "View Layers"
-    bl_idname = "PROPERTIES_VIEW_LAYER_LIST"
+    bl_idname = "VTOOLS2_PT_View_Layer_List_Panel"
     bl_region_type = 'WINDOW'
     bl_space_type = 'PROPERTIES'
     bl_context = 'view_layer'

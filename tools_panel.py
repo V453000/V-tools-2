@@ -1,7 +1,7 @@
 import bpy
 
-class Vtools2_tools_panel(bpy.types.Panel):
-    bl_idname = 'generate_render_nodes_panel'
+class VTOOLS2_tools_panel(bpy.types.Panel):
+    bl_idname = 'VTOOLS2_PT_tools_panel'
     bl_label = 'V-Tools-2 Panel'
     bl_category = 'V-Tools-2'
     bl_space_type = 'VIEW_3D'

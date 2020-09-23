@@ -148,8 +148,8 @@ class VTools_preferences(bpy.types.AddonPreferences):
 # V-tools-2 classes import
 from . Vtools2_generate_render_nodes       import Vtools2_generate_render_nodes_Operator
 from . Vtools2_view_layer_list             import ViewLayerListItem
-from . Vtools2_view_layer_list             import ViewLayerUL_List
-from . Vtools2_view_layer_list             import PT_ViewLayerListPanel
+from . Vtools2_view_layer_list             import VTOOLS2_UL_View_Layer_List
+from . Vtools2_view_layer_list             import VTOOLS2_PT_View_Layer_List_Panel
 from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListNewItem
 from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListDeleteItem
 from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListRefresh
@@ -157,8 +157,8 @@ from . Vtools2_images_pack                 import Vtools2_images_pack
 from . Vtools2_images_unpack               import Vtools2_images_unpack
 from . Vtools2_save_backup                 import Vtools2_save_backup
 from . Vtools2_default_render_settings     import Vtools2_default_render_settings
-from . properties_panels                   import properties_view_layer_panel
-from . tools_panel                         import Vtools2_tools_panel
+from . properties_panels                   import VTOOLS2_PT_properties_view_layer
+from . tools_panel                         import VTOOLS2_tools_panel
 
 classes = (
     OBJECT_PT_DemoUpdaterPanel,
@@ -166,9 +166,9 @@ classes = (
     Vtools2_generate_render_nodes_Operator,
 
     # View Layer List
-    ViewLayerUL_List,
+    VTOOLS2_UL_View_Layer_List,
     ViewLayerListItem,
-    #PT_ViewLayerListPanel,
+    #VTOOLS2_PT_View_Layer_List_Panel,
     LIST_OT_ViewLayerListNewItem,
     LIST_OT_ViewLayerListDeleteItem,
     LIST_OT_ViewLayerListRefresh,
@@ -184,13 +184,12 @@ classes = (
     Vtools2_default_render_settings,
 
     # Properties panels
-    properties_view_layer_panel,
-    Vtools2_tools_panel,
+    VTOOLS2_PT_properties_view_layer,
+    VTOOLS2_tools_panel,
 )
 
 @persistent
 def view_layer_list_refresh(scene):
-    print('Refreshed list')
     bpy.ops.view_layer_list.refresh()
 
 def register():
