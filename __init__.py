@@ -168,7 +168,7 @@ classes = (
     # View Layer List
     VTOOLS2_UL_View_Layer_List,
     ViewLayerListItem,
-    VTOOLS2_PT_View_Layer_List_Panel,
+    #VTOOLS2_PT_View_Layer_List_Panel,
     LIST_OT_ViewLayerListNewItem,
     LIST_OT_ViewLayerListDeleteItem,
     LIST_OT_ViewLayerListRefresh,
