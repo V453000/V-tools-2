@@ -147,20 +147,20 @@ class VTools_preferences(bpy.types.AddonPreferences):
 
 # V-tools-2 classes import
 from . Vtools2_generate_render_nodes       import Vtools2_generate_render_nodes_Operator
-from . Vtools2_generate_render_nodes       import Vtools2_generate_render_nodes_Panel
 from . Vtools2_view_layer_list             import ViewLayerListItem
 from . Vtools2_view_layer_list             import ViewLayerUL_List
 from . Vtools2_view_layer_list             import PT_ViewLayerListPanel
 from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListNewItem
 from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListDeleteItem
 from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListRefresh
+from . Vtools2_images_pack                 import Vtools2_images_pack
 from . properties_panels                   import properties_view_layer_panel
+from . tools_panel                         import Vtools2_tools_panel
 
 classes = (
     OBJECT_PT_DemoUpdaterPanel,
     # Generate Render Nodes
     Vtools2_generate_render_nodes_Operator,
-    Vtools2_generate_render_nodes_Panel,
 
     # View Layer List
     ViewLayerUL_List,
@@ -170,8 +170,12 @@ classes = (
     LIST_OT_ViewLayerListDeleteItem,
     LIST_OT_ViewLayerListRefresh,
 
+    # packing images
+    Vtools2_images_pack,
+
     # Properties panels
     properties_view_layer_panel,
+    Vtools2_tools_panel,
 )
 
 @persistent
