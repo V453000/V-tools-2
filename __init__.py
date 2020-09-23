@@ -155,6 +155,7 @@ from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListDeleteIte
 from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListRefresh
 from . Vtools2_images_pack                 import Vtools2_images_pack
 from . Vtools2_images_unpack               import Vtools2_images_unpack
+from . Vtools2_save_backup                 import Vtools2_save_backup
 from . properties_panels                   import properties_view_layer_panel
 from . tools_panel                         import Vtools2_tools_panel
 
@@ -174,6 +175,9 @@ classes = (
     # packing images
     Vtools2_images_pack,
     Vtools2_images_unpack,
+
+    # save backup
+    Vtools2_save_backup,
 
     # Properties panels
     properties_view_layer_panel,

@@ -10,6 +10,8 @@ class Vtools2_tools_panel(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
         row = layout.row()
+        row.operator('blend.save_backup', text = 'Save Backup', icon = 'FILE_BACKUP')
+        row = layout.row()
         row.operator('scene.images_pack', text = 'Pack Images', icon = 'IMPORT')
         row.operator('scene.images_unpack', text = 'Unpack Images', icon = 'EXPORT')
         row = layout.row()
