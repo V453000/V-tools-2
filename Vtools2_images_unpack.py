@@ -1,16 +1,16 @@
 import bpy
 
-class Vtools2_images_pack(bpy.types.Operator):
-    '''Pack all images to the .blend file.'''
-    bl_idname = 'scene.images_pack'
-    bl_label = 'Pack Images'
+class Vtools2_images_unpack(bpy.types.Operator):
+    '''Unpack all packed images to /textures folder.'''
+    bl_idname = 'scene.images_unpack'
+    bl_label = 'Unpack Images'
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):
         
         for img in bpy.data.images:
             if img.tiles is None:
-                img.pack()
+                img.unpack()
             # image_name = bpy.path.display_name_from_filepath(img.name)
             # print(image_name)
         
