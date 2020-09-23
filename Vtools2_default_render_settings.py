@@ -3,7 +3,7 @@ import math
 
 class Vtools2_default_render_settings(bpy.types.Operator):
     '''Set our default render settings'''
-    bl_idname = 'render.default_render_settings'
+    bl_idname = 'vtools.default_render_settings'
     bl_label = 'Default Render Settings'
     bl_options = {'REGISTER', 'UNDO'}
 

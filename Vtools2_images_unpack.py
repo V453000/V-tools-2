@@ -2,7 +2,7 @@ import bpy
 
 class Vtools2_images_unpack(bpy.types.Operator):
     '''Unpack all packed images to /textures folder.'''
-    bl_idname = 'scene.images_unpack'
+    bl_idname = 'vtools.images_unpack'
     bl_label = 'Unpack Images'
     bl_options = {'REGISTER', 'UNDO'}
 

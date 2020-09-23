@@ -30,12 +30,12 @@ class VTOOLS2_PT_View_Layer_List_Panel(bpy.types.Panel):
         scene = context.scene
 
         row = layout.row()
-        row.template_list('ViewLayerUL_List', 'ViewLayerList', scene, 'view_layer_list', scene, 'view_layer_list_index' )
+        row.template_list('VTOOLS2_UL_View_Layer_List', 'ViewLayerList', scene, 'view_layer_list', scene, 'view_layer_list_index' )
 
         row = layout.row()
-        row.operator('view_layer_list.new_item', text = 'New')
-        row.operator('view_layer_list.delete_item', text = 'Delete')
-        row.operator('view_layer_list.refresh', text = 'Refresh')
+        row.operator('vtools.view_layer_list_new_item', text = 'New')
+        row.operator('vtools.view_layer_list_delete_item', text = 'Delete')
+        row.operator('vtools.view_layer_list_refresh', text = 'Refresh')
 
         if scene.view_layer_list_index >= 0 and scene.view_layer_list:
             item = scene.view_layer_list[scene.view_layer_list_index]
@@ -48,7 +48,7 @@ class LIST_OT_ViewLayerListNewItem(bpy.types.Operator):
     """Add a new item to the list of View Layers."""
 
     bl_label = 'Add a new View Layer'
-    bl_idname = 'view_layer_list.new_item'
+    bl_idname = 'vtools.view_layer_list_new_item'
 
     def execute(self, context):
         context.scene.view_layer_list.add()
@@ -59,7 +59,7 @@ class LIST_OT_ViewLayerListDeleteItem(bpy.types.Operator):
     """Delete the selected item from the list of View Layers."""
 
     bl_label = 'Remove a View Layer'
-    bl_idname = 'view_layer_list.delete_item'
+    bl_idname = 'vtools.view_layer_list_delete_item'
 
     @classmethod
     def poll(cls, context):
@@ -78,7 +78,7 @@ class LIST_OT_ViewLayerListRefresh(bpy.types.Operator):
     """Refresh the list based on current View Layers"""
 
     bl_label = 'Refresh the View Layer List'
-    bl_idname = 'view_layer_list.refresh'
+    bl_idname = 'vtools.view_layer_list_refresh'
 
     def execute(self, context):
         context.scene.view_layer_list.clear()

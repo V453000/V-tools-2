@@ -22,7 +22,7 @@ bl_info = {
     "author":      'V453000',
     "version":     (2, 0, 0),
     "blender":     (2, 90, 0),
-    "location":    "View 3D > Tool Shelf > Demo Updater",
+    "location":    "View 3D > Tool Shelf",
     "warning":     "",  # used for warning icon and text in addons panel
     "category":    "User"
     }
@@ -146,7 +146,7 @@ class VTools_preferences(bpy.types.AddonPreferences):
 
 
 # V-tools-2 classes import
-from . Vtools2_generate_render_nodes       import Vtools2_generate_render_nodes_Operator
+from . Vtools2_generate_render_nodes       import VTOOLS2_OT_generate_render_nodes
 from . Vtools2_view_layer_list             import ViewLayerListItem
 from . Vtools2_view_layer_list             import VTOOLS2_UL_View_Layer_List
 from . Vtools2_view_layer_list             import VTOOLS2_PT_View_Layer_List_Panel
@@ -163,12 +163,12 @@ from . tools_panel                         import VTOOLS2_tools_panel
 classes = (
     OBJECT_PT_DemoUpdaterPanel,
     # Generate Render Nodes
-    Vtools2_generate_render_nodes_Operator,
+    VTOOLS2_OT_generate_render_nodes,
 
     # View Layer List
     VTOOLS2_UL_View_Layer_List,
     ViewLayerListItem,
-    #VTOOLS2_PT_View_Layer_List_Panel,
+    VTOOLS2_PT_View_Layer_List_Panel,
     LIST_OT_ViewLayerListNewItem,
     LIST_OT_ViewLayerListDeleteItem,
     LIST_OT_ViewLayerListRefresh,

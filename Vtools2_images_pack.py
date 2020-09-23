@@ -2,7 +2,7 @@ import bpy
 
 class Vtools2_images_pack(bpy.types.Operator):
     '''Pack all images to the .blend file.'''
-    bl_idname = 'scene.images_pack'
+    bl_idname = 'vtools.images_pack'
     bl_label = 'Pack Images'
     bl_options = {'REGISTER', 'UNDO'}
 

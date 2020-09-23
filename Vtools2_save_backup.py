@@ -3,7 +3,7 @@ import os
 
 class Vtools2_save_backup(bpy.types.Operator):
     '''Save a copy of the .blend file to the /backup folder, with timestamp.'''
-    bl_idname = 'blend.save_backup'
+    bl_idname = 'vtools.save_backup'
     bl_label = 'Save Backup'
     bl_options = {'REGISTER'}
 

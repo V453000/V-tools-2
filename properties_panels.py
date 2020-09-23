@@ -11,4 +11,4 @@ class VTOOLS2_PT_properties_view_layer(bpy.types.Panel):
     def draw(self,context):
         layout = self.layout
         row = layout.row()
-        row.operator('scene.generate_render_nodes', text = 'Generate Render Nodes', icon = 'NODETREE')
+        row.operator('vtools.generate_render_nodes', text = 'Generate Render Nodes', icon = 'NODETREE')

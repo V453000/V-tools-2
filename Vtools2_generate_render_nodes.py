@@ -1,7 +1,8 @@
 import bpy
 
-class Vtools2_generate_render_nodes_Operator(bpy.types.Operator):
-    bl_idname = 'scene.generate_render_nodes'
+class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
+    '''Generating Compositor nodes automatically from View layer names'''
+    bl_idname = 'vtools.generate_render_nodes'
     bl_label = 'Generate Render Nodes'
     bl_description = 'Generate Render Nodes from View Layers'
     bl_options = {'REGISTER', 'UNDO'}
