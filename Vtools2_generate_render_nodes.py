@@ -87,7 +87,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 mapping_node.name = 'HEIGHT-Mapping'
                 mapping_node.label = mapping_node.name
                 mapping_node.location = (-200,0)
-                mapping_node.inputs[3].default_value[0] = 0.1
+                mapping_node.inputs[3].default_value[2] = 0.1
 
                 separateXYZ_node = height_nodes.new(type = 'ShaderNodeSeparateXYZ')
                 separateXYZ_node.name = 'HEIGHT-SeparateXYZ'
