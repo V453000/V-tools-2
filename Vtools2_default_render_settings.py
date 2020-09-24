@@ -30,4 +30,6 @@ class Vtools2_default_render_settings(bpy.types.Operator):
             scn.render.engine = 'CYCLES'
             scn.cycles.device = 'GPU'
 
+            scn.cycles.samples = 1024
+
         return{'FINISHED'}
