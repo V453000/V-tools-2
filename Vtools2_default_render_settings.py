@@ -11,8 +11,8 @@ class VTOOLS2_OT_default_render_settings(bpy.types.Operator):
         name = 'Scene:',
         description = 'Target scenes to change settings of.',
         items = [
-            ('THIS', 'This Scene', '', 'PANEL_CLOSE', 0),
-            ('ALL', 'All Scenes', '', 'PANEL_CLOSE', 1)
+            ('THIS', 'This Scene', '', 'FILE_IMAGE', 0),
+            ('ALL', 'All Scenes', '', 'RENDERLAYERS', 1)
         ]
     )
 
