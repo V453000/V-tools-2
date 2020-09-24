@@ -32,4 +32,6 @@ class VTOOLS2_OT_default_render_settings(bpy.types.Operator):
 
             scn.cycles.samples = 1024
 
+            scn.render.film_transparent = True
+
         return{'FINISHED'}
