@@ -1,7 +1,7 @@
 import bpy
 import math
 
-class Vtools2_default_render_settings(bpy.types.Operator):
+class VTOOLS2_OT_default_render_settings(bpy.types.Operator):
     '''Set our default render settings'''
     bl_idname = 'vtools.default_render_settings'
     bl_label = 'Default Render Settings'

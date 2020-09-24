@@ -1,6 +1,6 @@
 import bpy
 
-class VTOOLS2_tools_panel(bpy.types.Panel):
+class VTOOLS2_PT_tools_panel(bpy.types.Panel):
     bl_idname = 'VTOOLS2_PT_tools_panel'
     bl_label = 'V-Tools-2 Panel'
     bl_category = 'V-Tools-2'

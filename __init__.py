@@ -147,19 +147,19 @@ class VTools_preferences(bpy.types.AddonPreferences):
 
 # V-tools-2 classes import
 from . Vtools2_generate_render_nodes       import VTOOLS2_OT_generate_render_nodes
-from . Vtools2_view_layer_list             import ViewLayerListItem
+from . Vtools2_view_layer_list             import VTOOLS2_PP_ViewLayerListItem
 from . Vtools2_view_layer_list             import VTOOLS2_UL_View_Layer_List
 from . Vtools2_view_layer_list             import VTOOLS2_PT_View_Layer_List_Panel
-from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListNewItem
-from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListDeleteItem
-from . Vtools2_view_layer_list             import LIST_OT_ViewLayerListRefresh
-from . Vtools2_images_pack                 import Vtools2_images_pack
-from . Vtools2_images_unpack               import Vtools2_images_unpack
+from . Vtools2_view_layer_list             import VTOOLS2_OT_ViewLayerListNewItem
+from . Vtools2_view_layer_list             import VTOOLS2_OT_ViewLayerListDeleteItem
+from . Vtools2_view_layer_list             import VTOOLS2_OT_ViewLayerListRefresh
+from . Vtools2_images_pack                 import VTOOLS2_OT_images_pack
+from . Vtools2_images_unpack               import VTOOLS2_OT_images_unpack
 from . Vtools2_relink_images               import VTOOLS2_OT_relink_images
-from . Vtools2_save_backup                 import Vtools2_save_backup
-from . Vtools2_default_render_settings     import Vtools2_default_render_settings
+from . Vtools2_save_backup                 import VTOOLS2_OT_save_backup
+from . Vtools2_default_render_settings     import VTOOLS2_OT_default_render_settings
 from . properties_panels                   import VTOOLS2_PT_properties_view_layer
-from . tools_panel                         import VTOOLS2_tools_panel
+from . tools_panel                         import VTOOLS2_PT_tools_panel
 
 classes = (
     OBJECT_PT_DemoUpdaterPanel,
@@ -168,28 +168,28 @@ classes = (
 
     # View Layer List
     VTOOLS2_UL_View_Layer_List,
-    ViewLayerListItem,
+    VTOOLS2_PP_ViewLayerListItem,
     #VTOOLS2_PT_View_Layer_List_Panel,
-    LIST_OT_ViewLayerListNewItem,
-    LIST_OT_ViewLayerListDeleteItem,
-    LIST_OT_ViewLayerListRefresh,
+    VTOOLS2_OT_ViewLayerListNewItem,
+    VTOOLS2_OT_ViewLayerListDeleteItem,
+    VTOOLS2_OT_ViewLayerListRefresh,
 
     # packing images
-    Vtools2_images_pack,
-    Vtools2_images_unpack,
+    VTOOLS2_OT_images_pack,
+    VTOOLS2_OT_images_unpack,
 
     # relink images
     VTOOLS2_OT_relink_images,
 
     # save backup
-    Vtools2_save_backup,
+    VTOOLS2_OT_save_backup,
 
     # default render settings
-    Vtools2_default_render_settings,
+    VTOOLS2_OT_default_render_settings,
 
     # Properties panels
     VTOOLS2_PT_properties_view_layer,
-    VTOOLS2_tools_panel,
+    VTOOLS2_PT_tools_panel,
 )
 
 @persistent
@@ -210,7 +210,7 @@ def register():
     # special handler for refreshing view layer list
     bpy.app.handlers.load_post.append(view_layer_list_refresh)
     # creating view layer list props
-    bpy.types.Scene.view_layer_list = bpy.props.CollectionProperty(type = ViewLayerListItem)
+    bpy.types.Scene.view_layer_list = bpy.props.CollectionProperty(type = VTOOLS2_PP_ViewLayerListItem)
     bpy.types.Scene.view_layer_list_index = bpy.props.IntProperty(name = "Index for view_layer_list", default = 0)
 
 def unregister():

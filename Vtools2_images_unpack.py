@@ -1,6 +1,6 @@
 import bpy
 
-class Vtools2_images_unpack(bpy.types.Operator):
+class VTOOLS2_OT_images_unpack(bpy.types.Operator):
     '''Unpack all packed images to /textures folder.'''
     bl_idname = 'vtools.images_unpack'
     bl_label = 'Unpack Images'

@@ -1,6 +1,6 @@
 import bpy
 
-class ViewLayerListItem(bpy.types.PropertyGroup):
+class VTOOLS2_PP_ViewLayerListItem(bpy.types.PropertyGroup):
     """The list of data"""
     name: bpy.props.StringProperty( name = 'ViewLayerName', description = 'Name of the View Layer.', default = 'Untitled')
 
@@ -44,7 +44,7 @@ class VTOOLS2_PT_View_Layer_List_Panel(bpy.types.Panel):
 
 
 
-class LIST_OT_ViewLayerListNewItem(bpy.types.Operator):
+class VTOOLS2_OT_ViewLayerListNewItem(bpy.types.Operator):
     """Add a new item to the list of View Layers."""
 
     bl_label = 'Add a new View Layer'
@@ -55,7 +55,7 @@ class LIST_OT_ViewLayerListNewItem(bpy.types.Operator):
 
         return{'FINISHED'}
 
-class LIST_OT_ViewLayerListDeleteItem(bpy.types.Operator):
+class VTOOLS2_OT_ViewLayerListDeleteItem(bpy.types.Operator):
     """Delete the selected item from the list of View Layers."""
 
     bl_label = 'Remove a View Layer'
@@ -74,7 +74,7 @@ class LIST_OT_ViewLayerListDeleteItem(bpy.types.Operator):
 
         return{'FINISHED'}
 
-class LIST_OT_ViewLayerListRefresh(bpy.types.Operator):
+class VTOOLS2_OT_ViewLayerListRefresh(bpy.types.Operator):
     """Refresh the list based on current View Layers"""
 
     bl_label = 'Refresh the View Layer List'
