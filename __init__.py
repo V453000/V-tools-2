@@ -155,6 +155,8 @@ from . Vtools2_view_layer_list             import VTOOLS2_OT_ViewLayerListDelete
 from . Vtools2_view_layer_list             import VTOOLS2_OT_ViewLayerListRefresh
 from . Vtools2_images_pack                 import VTOOLS2_OT_images_pack
 from . Vtools2_images_unpack               import VTOOLS2_OT_images_unpack
+from . Vtools2_render_computers            import VTOOLS2_OT_render_multicomputer
+from . Vtools2_render_computers            import VTOOLS2_OT_render_singlecomputer
 from . Vtools2_relink_images               import VTOOLS2_OT_relink_images
 from . Vtools2_save_backup                 import VTOOLS2_OT_save_backup
 from . Vtools2_default_render_settings     import VTOOLS2_OT_default_render_settings
@@ -186,6 +188,10 @@ classes = (
 
     # default render settings
     VTOOLS2_OT_default_render_settings,
+
+    # render computers
+    VTOOLS2_OT_render_multicomputer,
+    VTOOLS2_OT_render_singlecomputer,
 
     # Properties panels
     VTOOLS2_PT_properties_view_layer,

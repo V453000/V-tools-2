@@ -19,5 +19,8 @@ class VTOOLS2_PT_tools_panel(bpy.types.Panel):
         row = layout.row()
         row.operator('vtools.default_render_settings', text = 'Render Settings', icon = 'RESTRICT_RENDER_OFF')
         row = layout.row()
+        row.operator('vtools.render_singlecomputer', text = 'Render 1 PC', icon = 'LAYER_ACTIVE')
+        row.operator('vtools.render_multicomputer', text = 'Render N PC', icon = 'OUTLINER_OB_POINTCLOUD')
+        row = layout.row()
         row.operator('vtools.generate_render_nodes', text = 'Generate Render Nodes', icon = 'NODETREE')
         
