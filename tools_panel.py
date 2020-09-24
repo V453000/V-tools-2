@@ -15,6 +15,8 @@ class VTOOLS2_tools_panel(bpy.types.Panel):
         row.operator('vtools.images_pack', text = 'Pack Images', icon = 'IMPORT')
         row.operator('vtools.images_unpack', text = 'Unpack Images', icon = 'EXPORT')
         row = layout.row()
+        row.operator('vtools.relink_images', text = 'Relink Images', icon = 'LIBRARY_DATA_BROKEN')
+        row = layout.row()
         row.operator('vtools.default_render_settings', text = 'Render Settings', icon = 'RESTRICT_RENDER_OFF')
         row = layout.row()
         row.operator('vtools.generate_render_nodes', text = 'Generate Render Nodes', icon = 'NODETREE')
