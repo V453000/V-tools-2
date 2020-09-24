@@ -30,6 +30,9 @@ class VTOOLS2_OT_default_render_settings(bpy.types.Operator):
             scn.render.engine = 'CYCLES'
             scn.cycles.device = 'GPU'
 
+            scn.render.tile_x = scn.render.resolution_x
+            scn.render.tile_y = scn.render.resolution_y
+
             scn.cycles.samples = 1024
 
             scn.render.film_transparent = True
