@@ -14,13 +14,15 @@ class VTOOLS2_OT_show_all_collections(bpy.types.Operator):
 
     def execute(self, context):
         
+        print('-'*32)
+
         def get_collections(collection, col_list):
             col_list.append(collection)
             for sub_collection in collection.children:
                 get_collections(sub_collection, col_list)
 
         #collection_memory = []
-        #context.scene.collection_visibility_show.clear()
+        context.scene.collection_visibility_show.clear()
         collection_memory = []
         get_collections( bpy.context.view_layer.layer_collection, collection_memory )
 
@@ -28,7 +30,9 @@ class VTOOLS2_OT_show_all_collections(bpy.types.Operator):
             item = context.scene.collection_visibility_show.add()
             item.name = c.name
             item.exclude = c.exclude
-            print(c.name, '||', c.exclude)
+
+        for data in context.scene.collection_visibility_show:
+            print(data.exclude, '||', data.name)
 
         return {'FINISHED'}
 
