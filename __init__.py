@@ -160,6 +160,7 @@ from . Vtools2_render_computers            import VTOOLS2_OT_render_singlecomput
 from . Vtools2_relink_images               import VTOOLS2_OT_relink_images
 from . Vtools2_save_backup                 import VTOOLS2_OT_save_backup
 from . Vtools2_default_render_settings     import VTOOLS2_OT_default_render_settings
+from . Vtools2_show_all_collections        import VTOOLS2_OT_show_all_collections
 from . properties_panels                   import VTOOLS2_PT_properties_view_layer
 from . tools_panel                         import VTOOLS2_PT_tools_panel
 
@@ -193,6 +194,9 @@ classes = (
     VTOOLS2_OT_render_multicomputer,
     VTOOLS2_OT_render_singlecomputer,
 
+    # show all collections
+    VTOOLS2_OT_show_all_collections,
+
     # Properties panels
     VTOOLS2_PT_properties_view_layer,
     VTOOLS2_PT_tools_panel,
@@ -200,7 +204,9 @@ classes = (
 
 @persistent
 def view_layer_list_refresh(scene):
+    ''' disabled for now
     bpy.ops.view_layer_list.refresh()
+    '''
 
 def register():
     # addon updater code and configurations
