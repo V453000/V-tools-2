@@ -2,7 +2,8 @@ import bpy
 
 class VTOOLS2_PP_CollectionVisibilityShow(bpy.types.PropertyGroup):
     """Collection visibility data for 'Show' Function."""
-    name: bpy.props.StringProperty( name = 'CollectionVisibilityShow', description = 'Collection visibility "Show" data.', default = 'Untitled')
+    name: bpy.props.StringProperty( name = 'CollectionVisibilityShowName', description = 'Collection visibility "Show" data - Name.', default = 'Untitled')
+    exclude: bpy.props.BoolProperty( name = 'CollectionVisibilityShowExclude', description = 'Collection visibility "Show" data - Exclude.', default = False)
 
 
 class VTOOLS2_OT_show_all_collections(bpy.types.Operator):
@@ -26,6 +27,7 @@ class VTOOLS2_OT_show_all_collections(bpy.types.Operator):
         for c in collection_memory:
             item = context.scene.collection_visibility_show.add()
             item.name = c.name
+            item.exclude = c.exclude
             print(c.name, '||', c.exclude)
 
         return {'FINISHED'}
