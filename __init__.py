@@ -160,6 +160,7 @@ from . Vtools2_render_computers            import VTOOLS2_OT_render_singlecomput
 from . Vtools2_relink_images               import VTOOLS2_OT_relink_images
 from . Vtools2_save_backup                 import VTOOLS2_OT_save_backup
 from . Vtools2_default_render_settings     import VTOOLS2_OT_default_render_settings
+from . Vtools2_show_all_collections        import VTOOLS2_PP_CollectionVisibilityShow
 from . Vtools2_show_all_collections        import VTOOLS2_OT_show_all_collections
 from . properties_panels                   import VTOOLS2_PT_properties_view_layer
 from . tools_panel                         import VTOOLS2_PT_tools_panel
@@ -195,6 +196,7 @@ classes = (
     VTOOLS2_OT_render_singlecomputer,
 
     # show all collections
+    VTOOLS2_PP_CollectionVisibilityShow,
     VTOOLS2_OT_show_all_collections,
 
     # Properties panels
@@ -224,6 +226,8 @@ def register():
     # creating view layer list props
     bpy.types.Scene.view_layer_list = bpy.props.CollectionProperty(type = VTOOLS2_PP_ViewLayerListItem)
     bpy.types.Scene.view_layer_list_index = bpy.props.IntProperty(name = "Index for view_layer_list", default = 0)
+
+    bpy.types.Scene.collection_visibility_show = bpy.props.CollectionProperty(type = VTOOLS2_PP_CollectionVisibilityShow)
 
 def unregister():
     # deleting view layer list props

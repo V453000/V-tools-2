@@ -18,10 +18,14 @@ class VTOOLS2_OT_show_all_collections(bpy.types.Operator):
             for sub_collection in collection.children:
                 get_collections(sub_collection, col_list)
 
+        #collection_memory = []
+        #context.scene.collection_visibility_show.clear()
         collection_memory = []
         get_collections( bpy.context.view_layer.layer_collection, collection_memory )
 
         for c in collection_memory:
+            item = context.scene.collection_visibility_show.add()
+            item.name = c.name
             print(c.name, '||', c.exclude)
 
         return {'FINISHED'}
