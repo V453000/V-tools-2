@@ -162,6 +162,7 @@ from . Vtools2_save_backup                 import VTOOLS2_OT_save_backup
 from . Vtools2_default_render_settings     import VTOOLS2_OT_default_render_settings
 from . Vtools2_show_all_collections        import VTOOLS2_PP_CollectionVisibilityShow
 from . Vtools2_show_all_collections        import VTOOLS2_OT_show_all_collections
+from . Vtools2_show_all_collections        import VTOOLS2_OT_show_all_collections_revert
 from . properties_panels                   import VTOOLS2_PT_properties_view_layer
 from . tools_panel                         import VTOOLS2_PT_tools_panel
 
@@ -198,6 +199,7 @@ classes = (
     # show all collections
     VTOOLS2_PP_CollectionVisibilityShow,
     VTOOLS2_OT_show_all_collections,
+    VTOOLS2_OT_show_all_collections_revert,
 
     # Properties panels
     VTOOLS2_PT_properties_view_layer,

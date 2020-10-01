@@ -14,37 +14,52 @@ class VTOOLS2_OT_show_all_collections(bpy.types.Operator):
 
     def execute(self, context):
         
-        print('-'*32)
-
         def get_collections(collection, col_list):
             col_list.append(collection)
             for sub_collection in collection.children:
                 get_collections(sub_collection, col_list)
 
-        #collection_memory = []
-        context.scene.collection_visibility_show.clear()
-        collection_memory = []
-        get_collections( bpy.context.view_layer.layer_collection, collection_memory )
+        def show_collections(collection):
+            for sub_collection in collection.children:
+                sub_collection.exclude = False
+                show_collections(sub_collection)
 
-        for c in collection_memory:
+        # create a list of collections
+        collection_list = []
+        get_collections( bpy.context.view_layer.layer_collection, collection_list )
+
+        # change the memory only if any collection is excluded?
+
+        # go through the list of collections and save their state to memory
+        context.scene.collection_visibility_show.clear()
+        for c in collection_list:
             item = context.scene.collection_visibility_show.add()
             item.name = c.name
             item.exclude = c.exclude
 
-        for data in context.scene.collection_visibility_show:
-            print(data.exclude, '||', data.name)
+        # show all collections
+        show_collections(bpy.context.view_layer.layer_collection)
 
         return {'FINISHED'}
 
+
 class VTOOLS2_OT_show_all_collections_revert(bpy.types.Operator):
-    '''Revert collection visibility to the last remembered state.'''
+    '''Revert "Show all collections" to original state.'''
     bl_idname = 'vtools.show_all_collections_revert'
-    bl_label = 'Revert Collection Visibility'
+    bl_label = 'Revert Show All Collections'
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):
-
         
+        def revert_collections(collection, col_memory):
+            for sub_collection in collection.children:
+                if sub_collection.name in col_memory:
+                    sub_collection.exclude = col_memory[sub_collection.name].exclude
+                revert_collections(sub_collection, col_memory)
 
+        view_layer_collection = bpy.context.view_layer.layer_collection
+        collection_memory = bpy.context.scene.collection_visibility_show
+        revert_collections(view_layer_collection, collection_memory)
 
         return {'FINISHED'}
+
