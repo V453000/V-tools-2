@@ -29,7 +29,7 @@ class VTOOLS2_OT_hide_all_collections(bpy.types.Operator):
             for sub_collection in collection.children:
                 if sub_collection.exclude == False:
                     shown_collection_found = True
-                check_shown_collections(sub_collection)
+                shown_collection_found |= check_shown_collections(sub_collection)
 
             return shown_collection_found
 
@@ -39,6 +39,7 @@ class VTOOLS2_OT_hide_all_collections(bpy.types.Operator):
 
         # change the memory only if any collection is not excluded?
         shown_collection_found = check_shown_collections(bpy.context.view_layer.layer_collection)
+        print('Found shown:', shown_collection_found)
 
         if shown_collection_found == True:
             # go through the list of collections and save their state to memory
