@@ -24,18 +24,29 @@ class VTOOLS2_OT_hide_all_collections(bpy.types.Operator):
                 sub_collection.exclude = True
                 hide_collections(sub_collection)
 
+        def check_shown_collections(collection):
+            shown_collection_found = False
+            for sub_collection in collection.children:
+                if sub_collection.exclude == False:
+                    shown_collection_found = True
+                check_shown_collections(sub_collection)
+
+            return shown_collection_found
+
         # create a list of collections
         collection_list = []
         get_collections( bpy.context.view_layer.layer_collection, collection_list )
 
         # change the memory only if any collection is not excluded?
+        shown_collection_found = check_shown_collections(bpy.context.view_layer.layer_collection)
 
-        # go through the list of collections and save their state to memory
-        context.scene.collection_visibility_hide.clear()
-        for c in collection_list:
-            item = context.scene.collection_visibility_hide.add()
-            item.name = c.name
-            item.exclude = c.exclude
+        if shown_collection_found == True:
+            # go through the list of collections and save their state to memory
+            context.scene.collection_visibility_hide.clear()
+            for c in collection_list:
+                item = context.scene.collection_visibility_hide.add()
+                item.name = c.name
+                item.exclude = c.exclude
 
         # hide all collections
         hide_collections(bpy.context.view_layer.layer_collection)
