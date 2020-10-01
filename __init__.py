@@ -35,12 +35,13 @@ from bpy.app.handlers import persistent
 from . import addon_updater_ops
 class OBJECT_PT_DemoUpdaterPanel(bpy.types.Panel):
     """Panel to demo popup notice and ignoring functionality"""
-    bl_label = "Updater Demo Panel"
-    bl_idname = "OBJECT_PT_hello"
+    bl_label = "V-Tools-2 Updates"
+    bl_idname = "VTOOLS2_PT_updater_panel"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS' if bpy.app.version < (2, 80) else 'UI'
     bl_context = "objectmode"
-    bl_category = "Tools"
+    bl_category = "V-Tools-2"
+    bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
         layout = self.layout
@@ -54,7 +55,7 @@ class OBJECT_PT_DemoUpdaterPanel(bpy.types.Panel):
         addon_updater_ops.check_for_update_background()
 
 
-        layout.label(text="Demo Updater Addon")
+        layout.label(text="V-Tools 2 Updates")
         layout.label(text="")
 
         col = layout.column()
@@ -170,7 +171,6 @@ from . properties_panels                   import VTOOLS2_PT_properties_view_lay
 from . tools_panel                         import VTOOLS2_PT_tools_panel
 
 classes = (
-    OBJECT_PT_DemoUpdaterPanel,
     # Generate Render Nodes
     VTOOLS2_OT_generate_render_nodes,
 
@@ -211,6 +211,9 @@ classes = (
     # Properties panels
     VTOOLS2_PT_properties_view_layer,
     VTOOLS2_PT_tools_panel,
+
+    # updater panel
+    OBJECT_PT_DemoUpdaterPanel,
 )
 
 @persistent
