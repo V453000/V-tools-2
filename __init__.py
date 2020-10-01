@@ -163,6 +163,9 @@ from . Vtools2_default_render_settings     import VTOOLS2_OT_default_render_sett
 from . Vtools2_show_all_collections        import VTOOLS2_PP_CollectionVisibilityShow
 from . Vtools2_show_all_collections        import VTOOLS2_OT_show_all_collections
 from . Vtools2_show_all_collections        import VTOOLS2_OT_show_all_collections_revert
+from . Vtools2_hide_all_collections        import VTOOLS2_PP_CollectionVisibilityHide
+from . Vtools2_hide_all_collections        import VTOOLS2_OT_hide_all_collections
+from . Vtools2_hide_all_collections        import VTOOLS2_OT_hide_all_collections_revert
 from . properties_panels                   import VTOOLS2_PT_properties_view_layer
 from . tools_panel                         import VTOOLS2_PT_tools_panel
 
@@ -200,6 +203,10 @@ classes = (
     VTOOLS2_PP_CollectionVisibilityShow,
     VTOOLS2_OT_show_all_collections,
     VTOOLS2_OT_show_all_collections_revert,
+    # hide all collections
+    VTOOLS2_PP_CollectionVisibilityHide,
+    VTOOLS2_OT_hide_all_collections,
+    VTOOLS2_OT_hide_all_collections_revert,
 
     # Properties panels
     VTOOLS2_PT_properties_view_layer,
@@ -230,6 +237,7 @@ def register():
     bpy.types.Scene.view_layer_list_index = bpy.props.IntProperty(name = "Index for view_layer_list", default = 0)
 
     bpy.types.Scene.collection_visibility_show = bpy.props.CollectionProperty(type = VTOOLS2_PP_CollectionVisibilityShow)
+    bpy.types.Scene.collection_visibility_hide = bpy.props.CollectionProperty(type = VTOOLS2_PP_CollectionVisibilityHide)
 
 def unregister():
     # deleting view layer list props

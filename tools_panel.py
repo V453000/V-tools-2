@@ -25,5 +25,8 @@ class VTOOLS2_PT_tools_panel(bpy.types.Panel):
         row.operator('vtools.show_all_collections', text = 'Show All', icon = 'HIDE_OFF')
         row.operator('vtools.show_all_collections_revert', text = 'Revert', icon = 'RECOVER_LAST')
         row = layout.row()
+        row.operator('vtools.hide_all_collections', text = 'Hide All', icon = 'HIDE_ON')
+        row.operator('vtools.hide_all_collections_revert', text = 'Revert', icon = 'RECOVER_LAST')
+        row = layout.row()
         row.operator('vtools.generate_render_nodes', text = 'Generate Render Nodes', icon = 'NODETREE')
         
