@@ -25,14 +25,13 @@ class VTOOLS2_OT_show_all_collections(bpy.types.Operator):
                 show_collections(sub_collection)
 
         def check_hidden_collections(collection):
-            hidden_collection_found = False
             for sub_collection in collection.children:
                 if sub_collection.exclude == True:
-                    print('HIDDEN COLLECTION DETECTED---------------------------------')
-                    hidden_collection_found = True
-                hidden_collection_found |= check_hidden_collections(sub_collection)
-
-            return hidden_collection_found
+                    return True
+                if check_hidden_collections(sub_collection) == True:
+                    return True
+                
+            return False
 
         # create a list of collections
         collection_list = []
