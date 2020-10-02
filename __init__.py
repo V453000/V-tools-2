@@ -74,7 +74,7 @@ class OBJECT_PT_DemoUpdaterPanel(bpy.types.Panel):
         addon_updater_ops.update_notice_box_ui(self, context)
 @addon_updater_ops.make_annotations
 class VTools_preferences(bpy.types.AddonPreferences):
-    """Demo bare-bones preferences"""
+    """Add-on Preferences Panel"""
     bl_idname = __package__
 
     # addon updater preferences
@@ -82,18 +82,18 @@ class VTools_preferences(bpy.types.AddonPreferences):
     auto_check_update = bpy.props.BoolProperty(
         name="Auto-check for Update",
         description="If enabled, auto-check for updates using an interval",
-        default=False,
+        default=True,
         )
     updater_intrval_months = bpy.props.IntProperty(
         name='Months',
         description="Number of months between checking for updates",
-        default=7,
+        default=0,
         min=0
         )
     updater_intrval_days = bpy.props.IntProperty(
         name='Days',
         description="Number of days between checking for updates",
-        default=7,
+        default=1,
         min=0,
         max=31
         )
@@ -171,6 +171,9 @@ from . properties_panels                   import VTOOLS2_PT_properties_view_lay
 from . tools_panel                         import VTOOLS2_PT_tools_panel
 
 classes = (
+    # Preferences
+    VTools_preferences,
+
     # Generate Render Nodes
     VTOOLS2_OT_generate_render_nodes,
 
@@ -227,6 +230,7 @@ def register():
     # in case of broken version, try to register the updater first
     # so that users can revert back to a working version
     addon_updater_ops.register(bl_info)
+    
 
     # register classes from list
     for cls in classes:
