@@ -140,7 +140,7 @@ class Singleton_updater(object):
 
     # called from except blocks, to print the exception details,
     # according to the use_print_traces option
-    def print_trace():
+    def print_trace(self):
         if self._use_print_traces:
             traceback.print_exc()
 
