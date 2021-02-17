@@ -53,10 +53,10 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
     description = 'Suffix or appendix in the name of RenderLayer for rendering Height.',
     default = 'height'
     )
-    Znormal_identifier = bpy.props.StringProperty(
-    name = 'Z-Normal Identifier',
-    description = 'Suffix or appendix in the name of RenderLayer for rendering Z-Normal.',
-    default = 'Z-normal'
+    use_Z_pass = bpy.props.BoolProperty(
+    name = 'use_Z',
+    description = 'Use Z/Depth pass in all View Layers that have it enabled.',
+    default = False
     )
 
     def execute(self, context):
@@ -159,12 +159,10 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
             AO_identifier      = '-' + self.AO_identifier
             shadow_identifier  = '-' + self.shadow_identifier
             height_identifier  = '-' + self.height_identifier
-            Znormal_identifier = '-' + self.Znormal_identifier
 
             view_layer_appendix_AO      = view_layer_name[-len(AO_identifier):]
             view_layer_appendix_shadow  = view_layer_name[-len(shadow_identifier):]
             view_layer_appendix_height  = view_layer_name[-len(height_identifier):]
-            view_layer_appendix_Znormal = view_layer_name[-len(Znormal_identifier):]
 
             if view_layer_appendix_AO == AO_identifier:
                 view_layer_type = self.AO_identifier
@@ -172,12 +170,30 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 view_layer_type = self.shadow_identifier
             elif view_layer_appendix_height == height_identifier:
                 view_layer_type = self.height_identifier
-            elif  view_layer_appendix_Znormal == Znormal_identifier:
-                view_layer_type = self.Znormal_identifier
             else:
                 view_layer_type = ''
 
             return view_layer_type
+
+        def handle_special_pass(pass_name, socket_name, input_node):
+            print(input_node.name, pass_name)
+            # create output node
+            pass_output_node = nodes.new('CompositorNodeOutputFile')
+            pass_output_node.name = 'file-output-' + viewlayer.name + pass_name
+            pass_output_node.label = pass_output_node.name
+            pass_output_node.location = (input_node.location[0] + 1500, input_node.location[1] - (output_extra_height * output_extra_height_multiplier)) 
+            pass_output_node.width = x_multiplier - 30 + 150 + 150
+            pass_output_node.base_path = output_folder + scn.name + '_' + pass_name + '\\' + scn.name + '_' + viewlayer.name + '_' + pass_name
+
+            # clear file slots and add a new one
+            pass_output_node.file_slots.remove(pass_output_node.inputs[0])
+            pass_output_node.file_slots.new(scn.name + '_' + viewlayer.name + '_' + pass_name + '_')
+
+            # find index of special pass
+            pass_index = input_node.outputs.find(socket_name)
+
+            # create links
+            scn.node_tree.links.new(input_node.outputs[pass_index], pass_output_node.inputs[0])
 
 
 
@@ -186,7 +202,6 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
         bpy.context.scene.use_nodes = True
         # generate HEIGHT material (if settings allow)
         generate_HEIGHT_material()
-        # generate Z-normal material (if settings allow)
         # generate Normal material (if settings allow)
         # generate ShadowShitter material (if settings allow)
         generate_shadow_shitter()
@@ -198,12 +213,13 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
         remove_existing_nodes()
         
         # generate compositor nodes
+        scn = bpy.context.scene
         output_folder = '//OUTPUT\\'
-        nodes = bpy.context.scene.node_tree.nodes
+        nodes = scn.node_tree.nodes
         x_multiplier = 300
         y_multiplier = -680
         y_count = 0
-        for viewlayer in bpy.context.scene.view_layers:
+        for viewlayer in scn.view_layers:
             view_layer_type = identify_view_layer(viewlayer.name)
             x_count = 0
 
@@ -213,7 +229,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
             input_node.label = input_node.name
             input_node.location = (x_count * x_multiplier, y_count * y_multiplier)
             input_node.width = x_multiplier - 30
-            input_node.scene = bpy.context.scene
+            input_node.scene = scn
             input_node.layer = viewlayer.name
 
             x_count += 2
@@ -224,12 +240,12 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
             output_node.location = (x_count*x_multiplier, y_count*y_multiplier)
             output_node.width = x_multiplier -30 + 150
 
-            output_node.base_path = output_folder + bpy.context.scene.name + '\\' + bpy.context.scene.name + '_' + viewlayer.name
+            output_node.base_path = output_folder + scn.name + '\\' + scn.name + '_' + viewlayer.name
             
             # remove output node default input socket
             output_node.file_slots.remove(output_node.inputs[0])
             # add output node input socket
-            output_node.file_slots.new(bpy.context.scene.name + '_' + viewlayer.name + '_')
+            output_node.file_slots.new(scn.name + '_' + viewlayer.name + '_')
 
             
             if view_layer_type == self.shadow_identifier:
@@ -245,20 +261,20 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
 
                 index_shadow = input_node.outputs.find('Shadow')
 
-                bpy.context.scene.node_tree.links.new(input_node.outputs[index_shadow], shadow_shitter.inputs[0])
-                bpy.context.scene.node_tree.links.new(shadow_shitter.outputs[0], output_node.inputs[0])
+                scn.node_tree.links.new(input_node.outputs[index_shadow], shadow_shitter.inputs[0])
+                scn.node_tree.links.new(shadow_shitter.outputs[0], output_node.inputs[0])
 
             elif view_layer_type == self.height_identifier:
                 viewlayer.material_override = bpy.data.materials['HEIGHT']
-                height_alpha_over_black_node = bpy.context.scene.node_tree.nodes.new('CompositorNodeAlphaOver')
+                height_alpha_over_black_node = scn.node_tree.nodes.new('CompositorNodeAlphaOver')
                 height_alpha_over_black_node.name = viewlayer.name + '-Alpha-Over-Black'
                 height_alpha_over_black_node.label = height_alpha_over_black_node.name
                 height_alpha_over_black_node.location = ( input_node.location[0] + x_multiplier, input_node.location[1])
                 height_alpha_over_black_node.width = x_multiplier - 30
                 height_alpha_over_black_node.inputs[1].default_value = (0, 0, 0, 1)
 
-                bpy.context.scene.node_tree.links.new(input_node.outputs[0], height_alpha_over_black_node.inputs[2])
-                bpy.context.scene.node_tree.links.new(height_alpha_over_black_node.outputs[0], output_node.inputs[0])
+                scn.node_tree.links.new(input_node.outputs[0], height_alpha_over_black_node.inputs[2])
+                scn.node_tree.links.new(height_alpha_over_black_node.outputs[0], output_node.inputs[0])
 
             else:
                 if view_layer_type == self.AO_identifier:
@@ -270,26 +286,72 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                     output_node_AO.width = x_multiplier-30+150
 
                     output_node_AO.file_slots.remove(output_node_AO.inputs[0])
-                    output_node_AO.file_slots.new(bpy.context.scene.name + '_' + viewlayer.name + '-AO' + '_')
+                    output_node_AO.file_slots.new(scn.name + '_' + viewlayer.name + '-AO' + '_')
 
-                    output_node_AO.base_path = output_folder + bpy.context.scene.name + '\\' + bpy.context.scene.name + '_' + viewlayer.name + '-AO'
+                    output_node_AO.base_path = output_folder + scn.name + '\\' + scn.name + '_' + viewlayer.name + '-AO'
 
                     index_AO = input_node.outputs.find('AO')
-                    bpy.context.scene.node_tree.links.new(input_node.outputs[index_AO], output_node_AO.inputs[0])
+                    scn.node_tree.links.new(input_node.outputs[index_AO], output_node_AO.inputs[0])
 
                 # main output link
-                bpy.context.scene.node_tree.links.new(input_node.outputs[0], output_node.inputs[0])
+                scn.node_tree.links.new(input_node.outputs[0], output_node.inputs[0])
+
+            special_pass_args = [
+                # data path                                  # pass name                          # socket name           
+                (viewlayer.use_pass_z                      , 'pass-z'                             , 'Depth'               ),
+                (viewlayer.use_pass_mist                   , 'pass-mist'                          , 'Mist'                ),
+                (viewlayer.use_pass_normal                 , 'pass-normal'                        , 'Normal'              ),
+                (viewlayer.use_pass_vector                 , 'pass-vector'                        , 'Vector'              ),
+                (viewlayer.use_pass_uv                     , 'pass-uv'                            , 'UV'                  ),
+                (viewlayer.use_pass_object_index           , 'pass-object-index'                  , 'IndexOB'             ),
+                (viewlayer.use_pass_material_index         , 'pass-material-index'                , 'IndexMA'             ),
+                (viewlayer.use_pass_diffuse_direct         , 'pass-diffuse-direct'                , 'DiffDir'             ),
+                (viewlayer.use_pass_diffuse_indirect       , 'pass-diffuse-indirect'              , 'DiffInd'             ),
+                (viewlayer.use_pass_diffuse_color          , 'pass-diffuse-color'                 , 'DiffCol'             ),
+                (viewlayer.use_pass_glossy_direct          , 'pass-glossy-direct'                 , 'GlossDir'            ),
+                (viewlayer.use_pass_glossy_indirect        , 'pass-glossy-indirect'               , 'GlossInd'            ),
+                (viewlayer.use_pass_glossy_color           , 'pass-glossy-color'                  , 'GlossCol'            ),
+                (viewlayer.use_pass_transmission_direct    , 'pass-transmission-direct'           , 'TransDir'            ),
+                (viewlayer.use_pass_transmission_indirect  , 'pass-transmission-indirect'         , 'TransInd'            ),
+                (viewlayer.use_pass_transmission_color     , 'pass-transmission-color'            , 'TransCol'            ),
+                #(viewlayer.use_pass_subsurface_direct      , 'pass-subsurface-direct'             , ''                   ), #I think this isn't in cycles
+                #(viewlayer.use_pass_subsurface_indirect    , 'pass-subsurface-indirect'           , ''                   ), #I think this isn't in cycles
+                #(viewlayer.use_pass_subsurface_color       , 'pass-subsurface-color'              , ''                   ), #I think this isn't in cycles
+                (viewlayer.use_pass_emit                   , 'pass-emit'                          , 'Emit'                ),
+                (viewlayer.use_pass_environment            , 'pass-environment'                   , 'Env'                 ),                
+                (viewlayer.cycles.use_pass_volume_direct   , 'pass-volume-direct'                 , 'VolumeDir'           ),
+                (viewlayer.cycles.use_pass_volume_indirect , 'pass-volume-indirect'               , 'VolumeInd'           ),
+                (viewlayer.cycles.denoising_store_passes   , 'pass-denoising-noisy-image'         , 'Noisy Image'         ),
+                (viewlayer.cycles.denoising_store_passes   , 'pass-denoising-denoising-normal'    , 'Denoising Normal'    ),
+                (viewlayer.cycles.denoising_store_passes   , 'pass-denoising-denoising-albedo'    , 'Denoising Albedo'    ),
+                (viewlayer.cycles.denoising_store_passes   , 'pass-denoising-denoising-depth'     , 'Denoising Depth'     ),
+                (viewlayer.cycles.denoising_store_passes   , 'pass-denoising-denoising-shadowing' , 'Denoising Shadowing' ),
+                (viewlayer.cycles.denoising_store_passes   , 'pass-denoising-denoising-variance'  , 'Denoising Variance'  ),
+                (viewlayer.cycles.denoising_store_passes   , 'pass-denoising-denoising-intensity' , 'Denoising Intensity' ),
+                (viewlayer.cycles.denoising_store_passes   , 'pass-denoising-denoising-clean'     , 'Denoising Clean'     ),
+            ]
+
+            if view_layer_type != self.shadow_identifier and view_layer_type != self.height_identifier:
+                # if the pass isn't shadow or height, try to check for extra things to output
+                output_extra_height = 110
+                output_extra_height_multiplier = 0
+
+                for args in special_pass_args:
+                    pass_enabled = args[0]
+                    pass_name    = args[1]
+                    socket_name  = args[2]
+                    
+
+                    print(viewlayer.name, pass_name, pass_enabled)
+                    if pass_enabled == True:
+                        if pass_name != 'pass-z' or self.use_Z_pass == True:
+                            print(pass_name, 'is enabled.')
+                            handle_special_pass(pass_name, socket_name, input_node)
+                            
+                            output_extra_height_multiplier += 1
+
 
             y_count += 1
-
-            
-
-            
-            
-            
-
-
-
 
 
         return {'FINISHED'}
