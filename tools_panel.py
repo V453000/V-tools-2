@@ -41,6 +41,11 @@ class VTOOLS2_PT_tools_panel(bpy.types.Panel):
         row.operator('vtools.hide_all_collections_revert', text = 'Revert', icon = 'RECOVER_LAST')
 
         box = layout.box()
+        box.label(text = 'Collections')
+        row = box.row(align = True)
+        row.operator('vtools.add_excluded_collection', text = 'Add Excluded', icon = 'COLLECTION_NEW')
+
+        box = layout.box()
         box.label(text = 'Render nodes')
         row = box.row()
         row.operator('vtools.generate_render_nodes', text = 'Generate Render Nodes', icon = 'NODETREE')

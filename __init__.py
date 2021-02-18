@@ -167,6 +167,7 @@ from . Vtools2_show_all_collections        import VTOOLS2_OT_show_all_collection
 from . Vtools2_hide_all_collections        import VTOOLS2_PP_CollectionVisibilityHide
 from . Vtools2_hide_all_collections        import VTOOLS2_OT_hide_all_collections
 from . Vtools2_hide_all_collections        import VTOOLS2_OT_hide_all_collections_revert
+from . Vtools2_add_excluded_collection     import VTOOLS2_OT_add_excluded_collection
 from . properties_panels                   import VTOOLS2_PT_properties_view_layer
 from . tools_panel                         import VTOOLS2_PT_tools_panel
 
@@ -194,6 +195,9 @@ classes = (
 
     # save backup
     VTOOLS2_OT_save_backup,
+
+    # add excluded collection
+    VTOOLS2_OT_add_excluded_collection,
 
     # default render settings
     VTOOLS2_OT_default_render_settings,
