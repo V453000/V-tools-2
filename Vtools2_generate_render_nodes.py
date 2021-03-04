@@ -183,7 +183,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
             pass_output_node.label = pass_output_node.name
             pass_output_node.location = (input_node.location[0] + 1500, input_node.location[1] - (output_extra_height * output_extra_height_multiplier)) 
             pass_output_node.width = x_multiplier - 30 + 150 + 150
-            pass_output_node.base_path = output_folder + scn.name + '_' + '\\' + scn.name + '_' + viewlayer.name + '_' + pass_name
+            pass_output_node.base_path = output_folder + scn.name + '\\' + scn.name + '_' + viewlayer.name + '_' + pass_name
 
             # clear file slots and add a new one
             pass_output_node.file_slots.remove(pass_output_node.inputs[0])
