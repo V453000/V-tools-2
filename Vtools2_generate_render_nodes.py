@@ -251,7 +251,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
             
             if view_layer_type == self.shadow_identifier:
                 viewlayer.use_pass_shadow = True
-                viewlayer.samples = 16
+                viewlayer.samples = 128
                 shadow_shitter = nodes.new('CompositorNodeGroup')
                 shadow_shitter.node_tree = bpy.data.node_groups['ShadowShitter']
                 shadow_shitter.name = viewlayer.name + '-ShadowShitter'
@@ -268,7 +268,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
 
             elif view_layer_type == self.height_identifier:
                 viewlayer.material_override = bpy.data.materials['HEIGHT']
-                viewlayer.samples = 16
+                viewlayer.samples = 128
                 height_alpha_over_black_node = scn.node_tree.nodes.new('CompositorNodeAlphaOver')
                 height_alpha_over_black_node.name = viewlayer.name + '-Alpha-Over-Black'
                 height_alpha_over_black_node.label = height_alpha_over_black_node.name
