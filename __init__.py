@@ -160,6 +160,7 @@ from . Vtools2_render_computers            import VTOOLS2_OT_render_multicompute
 from . Vtools2_render_computers            import VTOOLS2_OT_render_singlecomputer
 from . Vtools2_relink_images               import VTOOLS2_OT_relink_images
 from . Vtools2_subsurf_settings            import VTOOLS2_OT_subsurf_settings
+from . Vtools2_viewport_display            import VTOOLS2_OT_viewport_display
 from . Vtools2_save_backup                 import VTOOLS2_OT_save_backup
 from . Vtools2_default_render_settings     import VTOOLS2_OT_default_render_settings
 from . Vtools2_show_all_collections        import VTOOLS2_PP_CollectionVisibilityShow
@@ -196,6 +197,9 @@ classes = (
 
     # subsurf settings
     VTOOLS2_OT_subsurf_settings,
+    
+    # viewport display
+    VTOOLS2_OT_viewport_display,
 
     # save backup
     VTOOLS2_OT_save_backup,

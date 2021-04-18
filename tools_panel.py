@@ -46,6 +46,11 @@ class VTOOLS2_PT_tools_panel(bpy.types.Panel):
         row.operator('vtools.add_excluded_collection', text = 'Add Excluded', icon = 'COLLECTION_NEW')
 
         box = layout.box()
+        box.label(text = 'Objects')
+        row = box.row(align = True)
+        row.operator('vtools.viewport_display', text = 'Viewport Display', icon = 'RESTRICT_VIEW_OFF')
+
+        box = layout.box()
         box.label(text = 'Modifiers')
         row = box.row(align = True)
         row.operator('vtools.subsurf_settings', text = 'Subsurf Settings', icon = 'MOD_SUBSURF')
