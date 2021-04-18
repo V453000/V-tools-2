@@ -225,13 +225,13 @@ class VTOOLS2_OT_viewport_display(bpy.types.Operator):
 
           if self.display_type != 'Unchanged':
             if self.display_type != 'Copy Active':
-              obj.display_type = to_bool(self.display_type)
+              obj.display_type = self.display_type
             else:
               obj.display_type = original_active_data.display_type
 
           if self.display_bounds_type != 'Unchanged':
             if self.display_bounds_type != 'Copy Active':
-              obj.display_bounds_type = to_bool(self.display_bounds_type)
+              obj.display_bounds_type = self.display_bounds_type
             else:
               obj.coldisplay_bounds_typeor = original_active_data.display_bounds_type
 
