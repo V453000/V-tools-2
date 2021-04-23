@@ -51,6 +51,11 @@ class VTOOLS2_PT_tools_panel(bpy.types.Panel):
         row.operator('vtools.viewport_display', text = 'Viewport Display', icon = 'RESTRICT_VIEW_OFF')
 
         box = layout.box()
+        box.label(text = 'Materials')
+        row = box.row(align = True)
+        row.operator('vtools.link_material_to', text = 'Link material to...', icon = 'LINKED')
+
+        box = layout.box()
         box.label(text = 'Modifiers')
         row = box.row(align = True)
         row.operator('vtools.subsurf_settings', text = 'Subsurf Settings', icon = 'MOD_SUBSURF')
