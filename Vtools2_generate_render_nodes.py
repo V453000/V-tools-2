@@ -364,7 +364,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 aov_output_node = nodes.new('CompositorNodeOutputFile')
                 aov_output_node.name = 'file-output-' + viewlayer.name + '_AOV_' + aov.name
                 aov_output_node.label = aov_output_node.name
-                aov_output_node.location = (x_count*x_multiplier, y_count*y_multiplier - aov_node_y * aov_node_y_multiplier)
+                aov_output_node.location = (input_node.location[0] + 2000+160, y_count*y_multiplier - aov_node_y * aov_node_y_multiplier)
                 aov_output_node.width = x_multiplier -30 + 150
                 
                 aov_output_node.base_path = output_folder + scn.name + '\\' + scn.name + '_' + viewlayer.name + '_' + 'AOV-' + aov.name
