@@ -354,6 +354,30 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                             output_extra_height_multiplier += 1
 
 
+            # handle AOV outputs
+            x_count += 2
+
+            aov_node_y = 120
+            aov_node_y_multiplier = 0
+
+            for aov in viewlayer.aovs:
+                aov_output_node = nodes.new('CompositorNodeOutputFile')
+                aov_output_node.name = 'file-output-' + viewlayer.name + '_AOV_' + aov.name
+                aov_output_node.label = aov_output_node.name
+                aov_output_node.location = (x_count*x_multiplier, y_count*y_multiplier - aov_node_y * aov_node_y_multiplier)
+                aov_output_node.width = x_multiplier -30 + 150
+                
+                aov_output_node.base_path = output_folder + scn.name + '\\' + scn.name + '_' + viewlayer.name + '_' + 'AOV-' + aov.name
+
+                aov_output_node.file_slots.remove(aov_output_node.inputs[0])
+                aov_output_node.file_slots.new(scn.name + '_' + viewlayer.name + '_' + 'AOV-' + aov.name + '_')
+
+                aov_output_index = input_node.outputs.find(aov.name)
+
+                scn.node_tree.links.new(input_node.outputs[aov_output_index], aov_output_node.inputs[0])
+
+                aov_node_y_multiplier += 1
+
             y_count += 1
 
 
