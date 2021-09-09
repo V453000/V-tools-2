@@ -7,7 +7,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
     bl_description = 'Generate Render Nodes from View Layers'
     bl_options = {'REGISTER', 'UNDO'}
 
-    remove_existing_nodes = bpy.props.EnumProperty(
+    remove_existing_nodes : bpy.props.EnumProperty(
     name = 'Remove Existing Nodes',
     description = 'Choose whether the function should remove existing nodes, or only add new.',
     items = [
@@ -17,7 +17,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
     ],
     default = 'Regenerate'
     )
-    regenerate_height_material = bpy.props.EnumProperty(
+    regenerate_height_material : bpy.props.EnumProperty(
     name = 'Regenerate HEIGHT material',
     description = 'Delete the nodes in current HEIGHT material and create new ones.',
     items = [
@@ -27,7 +27,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
     ],
     default = 'Keep'
     )
-    regenerate_shadow_shitter = bpy.props.EnumProperty(
+    regenerate_shadow_shitter : bpy.props.EnumProperty(
     name = 'Regenerate Shadow Shitter',
     description = 'Delete the nodes in current SHADOW Shitter and create new ones.',
     items = [
@@ -38,22 +38,22 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
     default = 'Keep'
     )
 
-    AO_identifier = bpy.props.StringProperty(
+    AO_identifier : bpy.props.StringProperty(
     name = 'AO Identifier',
     description = 'Suffix or appendix in the name of RenderLayer for rendering AO.',
     default = 'main'
     )
-    shadow_identifier = bpy.props.StringProperty(
+    shadow_identifier : bpy.props.StringProperty(
     name = 'Shadow Identifier',
     description = 'Suffix or appendix in the name of RenderLayer for rendering Shadow.',
     default = 'shadow'
     )
-    height_identifier = bpy.props.StringProperty(
+    height_identifier : bpy.props.StringProperty(
     name = 'Height Identifier',
     description = 'Suffix or appendix in the name of RenderLayer for rendering Height.',
     default = 'height'
     )
-    use_Z_pass = bpy.props.BoolProperty(
+    use_Z_pass : bpy.props.BoolProperty(
     name = 'use_Z',
     description = 'Use Z/Depth pass in all View Layers that have it enabled.',
     default = False

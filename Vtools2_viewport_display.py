@@ -7,7 +7,7 @@ class VTOOLS2_OT_viewport_display(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
     # Settings
-    show_name = bpy.props.EnumProperty(
+    show_name : bpy.props.EnumProperty(
       name = 'Name',
       description = 'Object shows name in viewport.',
       items = [
@@ -18,7 +18,7 @@ class VTOOLS2_OT_viewport_display(bpy.types.Operator):
         ('False'        , 'False'         ,'Turn off'                    , 'RADIOBUT_OFF' , 3)
       ]
     )
-    show_axis = bpy.props.EnumProperty(
+    show_axis : bpy.props.EnumProperty(
       name = 'Axis',
       description = 'Object shows axis in viewport.',
       items = [
@@ -29,7 +29,7 @@ class VTOOLS2_OT_viewport_display(bpy.types.Operator):
         ('False'        , 'False'         ,'Turn off'                    , 'RADIOBUT_OFF' , 3)
       ]
     )
-    show_wire = bpy.props.EnumProperty(
+    show_wire : bpy.props.EnumProperty(
       name = 'Wire',
       description = 'Object shows wire in viewport.',
       items = [
@@ -40,7 +40,7 @@ class VTOOLS2_OT_viewport_display(bpy.types.Operator):
         ('False'        , 'False'         ,'Turn off'                    , 'RADIOBUT_OFF' , 3)
       ]
     )
-    show_all_edges = bpy.props.EnumProperty(
+    show_all_edges : bpy.props.EnumProperty(
       name = 'All Edges',
       description = 'Object shows all edges in viewport.',
       items = [
@@ -51,7 +51,7 @@ class VTOOLS2_OT_viewport_display(bpy.types.Operator):
         ('False'        , 'False'         ,'Turn off'                    , 'RADIOBUT_OFF' , 3)
       ]
     )
-    show_texture_space = bpy.props.EnumProperty(
+    show_texture_space : bpy.props.EnumProperty(
       name = 'Texture Space',
       description = 'Object shows texture space in viewport.',
       items = [
@@ -62,7 +62,7 @@ class VTOOLS2_OT_viewport_display(bpy.types.Operator):
         ('False'        , 'False'         ,'Turn off'                    , 'RADIOBUT_OFF' , 3)
       ]
     )
-    show_shadows = bpy.props.EnumProperty(
+    show_shadows : bpy.props.EnumProperty(
       name = 'Shadows',
       description = 'Object shows shadows in viewport.',
       items = [
@@ -73,7 +73,7 @@ class VTOOLS2_OT_viewport_display(bpy.types.Operator):
         ('False'        , 'False'         ,'Turn off'                    , 'RADIOBUT_OFF' , 3)
       ]
     )
-    show_in_front = bpy.props.EnumProperty(
+    show_in_front : bpy.props.EnumProperty(
       name = 'In Front',
       description = 'Object shows in front in viewport.',
       items = [
@@ -84,7 +84,7 @@ class VTOOLS2_OT_viewport_display(bpy.types.Operator):
         ('False'        , 'False'         ,'Turn off'                    , 'RADIOBUT_OFF' , 3)
       ]
     )
-    show_bounds = bpy.props.EnumProperty(
+    show_bounds : bpy.props.EnumProperty(
       name = 'Bounds',
       description = 'Object shows as bounds in viewport.',
       items = [
@@ -95,7 +95,7 @@ class VTOOLS2_OT_viewport_display(bpy.types.Operator):
         ('False'        , 'False'         ,'Turn off'                    , 'RADIOBUT_OFF' , 3)
       ]
     )
-    display_bounds_type = bpy.props.EnumProperty(
+    display_bounds_type : bpy.props.EnumProperty(
       name = 'Bounds Type',
       description = 'Type of bounds drawing.',
       items = [
@@ -109,7 +109,7 @@ class VTOOLS2_OT_viewport_display(bpy.types.Operator):
         ('CAPSULE'      , 'CAPSULE'       ,'Show as a capsule.'          , 'MESH_CAPSULE'  , 6)
       ]
     )
-    display_type = bpy.props.EnumProperty(
+    display_type : bpy.props.EnumProperty(
       name = 'Display Type',
       description = 'Object drawing type.',
       items = [
@@ -122,7 +122,7 @@ class VTOOLS2_OT_viewport_display(bpy.types.Operator):
         ('TEXTURED'     , 'TEXTURED'      ,'Show as textured.'           , 'SHADING_TEXTURE' , 5)
       ]
     )
-    color_use = bpy.props.EnumProperty(
+    color_use : bpy.props.EnumProperty(
       name = 'Color - Use',
       description = 'Choose whether to override color or not.',
       items = [
@@ -132,7 +132,7 @@ class VTOOLS2_OT_viewport_display(bpy.types.Operator):
         ('Custom'       , 'Custom'        ,'Set the below selected color.' , 'EYEDROPPER'   , 2),
       ]
     )
-    color = bpy.props.FloatVectorProperty(
+    color : bpy.props.FloatVectorProperty(
         name = 'Object Color',
         description = 'Object color to set.',
         size = 4,

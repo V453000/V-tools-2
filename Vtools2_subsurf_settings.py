@@ -7,7 +7,7 @@ class VTOOLS2_OT_subsurf_settings(bpy.types.Operator):
   bl_options = {'REGISTER', 'UNDO'}
 
 
-  subsurf_algorithm = bpy.props.EnumProperty(
+  subsurf_algorithm : bpy.props.EnumProperty(
     name = 'Mode',
     description = 'Subdivision Algorithm',
     items = [
@@ -18,7 +18,7 @@ class VTOOLS2_OT_subsurf_settings(bpy.types.Operator):
     ]
   )
 
-  subsurf_render_visibility = bpy.props.EnumProperty(
+  subsurf_render_visibility : bpy.props.EnumProperty(
     name = 'Render visibility',
     description = 'Render visibility',
     items = [
@@ -28,7 +28,7 @@ class VTOOLS2_OT_subsurf_settings(bpy.types.Operator):
       ('OFF'         , 'OFF'         ,''      , 'RESTRICT_RENDER_ON'   , 2)
     ]
   )
-  subsurf_viewport_visibility = bpy.props.EnumProperty(
+  subsurf_viewport_visibility : bpy.props.EnumProperty(
     name = 'Viewport Visibility',
     description = 'Viewport Visibility',
     items = [
@@ -38,7 +38,7 @@ class VTOOLS2_OT_subsurf_settings(bpy.types.Operator):
       ('OFF'         , 'OFF'         ,''      , 'RESTRICT_VIEW_ON'   , 2)
     ]
   )
-  subsurf_editmode_visibility = bpy.props.EnumProperty(
+  subsurf_editmode_visibility : bpy.props.EnumProperty(
     name = 'Edit Mode Visibility',
     description = 'Edit Mode Visibility',
     items = [
@@ -48,7 +48,7 @@ class VTOOLS2_OT_subsurf_settings(bpy.types.Operator):
       ('OFF'         , 'OFF'         ,''      , 'SNAP_VERTEX'   , 2)
     ]
   )
-  subsurf_cage_visibility = bpy.props.EnumProperty(
+  subsurf_cage_visibility : bpy.props.EnumProperty(
     name = 'On Cage Visibility',
     description = 'On Cage Visibility',
     items = [
@@ -59,31 +59,31 @@ class VTOOLS2_OT_subsurf_settings(bpy.types.Operator):
     ]
   )
   
-  subsurf_change_levels = bpy.props.BoolProperty(
+  subsurf_change_levels : bpy.props.BoolProperty(
     name = 'ChangeViewport Levels',
     default = False
   )
-  subsurf_levels = bpy.props.IntProperty(
+  subsurf_levels : bpy.props.IntProperty(
     name = 'Subsurf Levels',
     default = 1
   )
 
-  subsurf_change_render_levels = bpy.props.BoolProperty(
+  subsurf_change_render_levels : bpy.props.BoolProperty(
     name = 'Change Render Levels',
     default = False
   )
-  subsurf_render_levels = bpy.props.IntProperty(
+  subsurf_render_levels : bpy.props.IntProperty(
     name = 'Subsurf Render Levels',
     default = 2
   )
   
 
 
-  subsurf_adaptive_subdivision = bpy.props.BoolProperty(
+  subsurf_adaptive_subdivision : bpy.props.BoolProperty(
     name = 'Adaptive Subdivision',
     default = False
   )
-  subsurf_adaptive_subdivision = bpy.props.EnumProperty(
+  subsurf_adaptive_subdivision : bpy.props.EnumProperty(
     name = 'Adaptive Subdivision',
     description = 'Adaptive Subdivision',
     items = [
@@ -95,11 +95,11 @@ class VTOOLS2_OT_subsurf_settings(bpy.types.Operator):
   )
 
 
-  subsurf_change_adaptive_dicing_rate = bpy.props.BoolProperty(
+  subsurf_change_adaptive_dicing_rate : bpy.props.BoolProperty(
     name = 'Change Adaptive Dicing Rate',
     default = False
   )
-  subsurf_adaptive_dicing_rate = bpy.props.FloatProperty(
+  subsurf_adaptive_dicing_rate : bpy.props.FloatProperty(
     name = 'Adaptive Dicing Rate',
     default = 1.0
   )

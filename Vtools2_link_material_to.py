@@ -7,7 +7,7 @@ class VTOOLS2_OT_link_material_to(bpy.types.Operator):
   bl_label = 'Link material to...'
   bl_options = {'REGISTER', 'UNDO'}
 
-  set_mode = bpy.props.EnumProperty(
+  set_mode : bpy.props.EnumProperty(
     name = 'Material Linking',
     description = 'Select what to link the material to.',
     items = [

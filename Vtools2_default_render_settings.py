@@ -7,7 +7,7 @@ class VTOOLS2_OT_default_render_settings(bpy.types.Operator):
     bl_label = 'Default Render Settings'
     bl_options = {'REGISTER', 'UNDO'}
 
-    set_for_all_scenes = bpy.props.EnumProperty(
+    set_for_all_scenes : bpy.props.EnumProperty(
         name = 'Scene:',
         description = 'Target scenes to change settings of.',
         items = [

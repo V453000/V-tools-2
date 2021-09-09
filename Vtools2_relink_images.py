@@ -7,12 +7,12 @@ class VTOOLS2_OT_relink_images(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
     # Settings
-    path_find = bpy.props.StringProperty(
+    path_find : bpy.props.StringProperty(
         name = 'Find',
         description = 'Path string to search for.',
         default = '10.0.0.1\\tank_volume1'
     )
-    path_replace = bpy.props.StringProperty(
+    path_replace : bpy.props.StringProperty(
         name = 'Replace',
         description = 'Path string to replace with.',
         default = 'nas.factorio.com\\tank'
