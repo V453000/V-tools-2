@@ -61,7 +61,9 @@ class VTOOLS2_PT_tools_panel(bpy.types.Panel):
         row.operator('vtools.subsurf_settings', text = 'Subsurf Settings', icon = 'MOD_SUBSURF')
 
         box = layout.box()
-        box.label(text = 'Render nodes')
+        box.label(text = 'View Layers')
+        row = box.row()
+        row.operator('vtools.generate_height_layers', text = 'Generate Height Layers', icon = 'RENDERLAYERS')
         row = box.row()
         row.operator('vtools.generate_render_nodes', text = 'Generate Render Nodes', icon = 'NODETREE')
         

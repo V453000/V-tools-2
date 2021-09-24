@@ -148,6 +148,7 @@ class VTools_preferences(bpy.types.AddonPreferences):
 
 # V-tools-2 classes import
 from . Vtools2_generate_render_nodes       import VTOOLS2_OT_generate_render_nodes
+from . Vtools2_generate_height_layers      import VTOOLS2_OT_generate_height_layers
 from . Vtools2_view_layer_list             import VTOOLS2_PP_ViewLayerListItem
 from . Vtools2_view_layer_list             import VTOOLS2_UL_View_Layer_List
 from . Vtools2_view_layer_list             import VTOOLS2_PT_View_Layer_List_Panel
@@ -180,6 +181,8 @@ classes = (
 
     # Generate Render Nodes
     VTOOLS2_OT_generate_render_nodes,
+    # View layer generation
+    VTOOLS2_OT_generate_height_layers,
 
     # View Layer List
     VTOOLS2_UL_View_Layer_List,

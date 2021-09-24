@@ -9,22 +9,42 @@ class VTOOLS2_OT_generate_height_layers(bpy.types.Operator):
     def execute(self, context):
 
         def get_collections(collection, col_list):
-            col_list.append(collection)
+            if collection.name != 'Master Collection':
+                col_list.append(collection)
             for sub_collection in collection.children:
                 get_collections(sub_collection, col_list)
+
+        def find_collection_in_children(parent_collection, searched_name):
+            for child in parent_collection.children:
+                if child.name == searched_name:
+                    return child
+                else:
+                    find_collection_in_children(child, searched_name)
 
         # get the list of collections for current view layer
         collection_list = []
         get_collections( bpy.context.view_layer.layer_collection, collection_list )
-
+        print('-'*32)
         
         def add_height_layer(view_layer, collection_list):
             height_layer_name = view_layer.name.replace('-main', '-height')
             height_layer = bpy.context.scene.view_layers.new(height_layer_name)
-            height_layer.
+            for collection in collection_list:
+                print(collection.name)
+                #target_collection = height_layer.layer_collection.children.get(collection.name)
+                target_collection = find_collection_in_children(height_layer.layer_collection.children, collection.name)
+                target_collection.exclude       = collection.exclude
+                target_collection.holdout       = collection.holdout
+                target_collection.indirect_only = collection.indirect_only
+                target_collection.hide_viewport = collection.hide_viewport
+                target_collection.hide_render   = collection.hide_render
+                target_collection.hide_select   = collection.hide_select
 
+        for col in collection_list:
+            print(col.name)
 
-
-        print('x')
+        for layer in bpy.context.scene.view_layers:
+            if layer.name.endswith('-main'):
+                add_height_layer(layer, collection_list)
         
         return {'FINISHED'}
