@@ -7,14 +7,24 @@ class VTOOLS2_OT_generate_height_layers(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}
     
     AO_identifier : bpy.props.StringProperty(
-    name = 'AO Identifier',
-    description = 'Suffix or appendix in the name of RenderLayer for rendering AO.',
-    default = 'main'
+        name = 'AO Identifier',
+        description = 'Suffix or appendix in the name of RenderLayer for rendering AO.',
+        default = 'main'
     )
     height_identifier : bpy.props.StringProperty(
-    name = 'Height Identifier',
-    description = 'Suffix or appendix in the name of RenderLayer for rendering Height.',
-    default = 'height'
+        name = 'Height Identifier',
+        description = 'Suffix or appendix in the name of RenderLayer for rendering Height.',
+        default = 'height'
+    )
+    height_material_name : bpy.props.StringProperty(
+        name = 'Height Material Name',
+        description = 'Name of the Height material to be used for the Height pass.',
+        default = 'HEIGHT',
+    )
+    individual_mode : bpy.props.StringProperty(
+        name = 'Individual mode',
+        description = 'Turn on to only generate from one specific view layer. Leave blank if you want to process all -main layers.',
+        default = '', # if '', the script just processes everything
     )
 
     def execute(self, context):
@@ -38,13 +48,18 @@ class VTOOLS2_OT_generate_height_layers(bpy.types.Operator):
             else:
                 print('No collections found in this scene.')
         
-        def add_height_layer(view_layer, collection_list):
-            height_layer_name = view_layer.name.replace(self.AO_identifier, self.height_identifier)
+        def add_height_layer(view_layer, collection_list, height_mtl_name):
+            if view_layer.name.endswith(self.AO_identifier):
+                height_layer_name = view_layer.name.replace(self.AO_identifier, self.height_identifier)
+            else:
+                height_layer_name = view_layer.name + '-' + self.height_identifier
             # check if the height layer already exists, if not, create it
             if bpy.context.scene.view_layers.get(height_layer_name) is None:
                 height_layer = bpy.context.scene.view_layers.new(height_layer_name)
             else:
                 height_layer = bpy.context.scene.view_layers.get(height_layer_name)
+            if bpy.data.materials.get(height_mtl_name) is not None:
+                height_layer.material_override = bpy.data.materials.get(height_mtl_name)
             # match the height layer's settings to the -main settings
             for collection in collection_list:
                 print(collection.name)
@@ -68,11 +83,11 @@ class VTOOLS2_OT_generate_height_layers(bpy.types.Operator):
             print(col.name)
         print('-'*32)
         
-
-
-
-        for layer in bpy.context.scene.view_layers:
-            if layer.name.endswith(self.AO_identifier):
-                add_height_layer(layer, collection_list)
+        if self.individual_mode == '':
+            for layer in bpy.context.scene.view_layers:
+                if layer.name.endswith(self.AO_identifier):
+                    add_height_layer(layer, collection_list, self.height_material_name)
+        else:
+            add_height_layer(bpy.context.scene.view_layers[self.individual_mode], collection_list, self.height_material_name)
         
         return {'FINISHED'}
