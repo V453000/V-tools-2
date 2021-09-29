@@ -26,6 +26,11 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
         description = 'Collections to include for shadow passes. !!! Must be formatted as a single string, separated by ",|---|, " !!!',
         default = 'Shadow Plane, Shadow Lamp'
     )
+    individual_mode : bpy.props.StringProperty(
+        name = 'Individual Mode',
+        description = 'Turn on to only generate from one specific view layer. Leave blank if you want to process all -main layers.',
+        default = '',
+    )
 
     def execute(self, context):
 
@@ -55,7 +60,10 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
                 force_collection_separator(collection)
 
         def add_shadow_layer(view_layer, collection_list):
-            shadow_layer_name = view_layer.name.replace(self.AO_identifier, self.shadow_identifier)
+            if view_layer.name.endswith(self.AO_identifier):
+                shadow_layer_name = view_layer.name.replace(self.AO_identifier, self.shadow_identifier)
+            else:
+                shadow_layer_name = view_layer.name + '-' + self.shadow_identifier
             # check if the shadow layer already exists, if not, create it
             if bpy.context.scene.view_layers.get(shadow_layer_name) is None:
                 shadow_layer = bpy.context.scene.view_layers.new(shadow_layer_name)
@@ -111,8 +119,12 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
         for col in collection_list:
             print(col.name)
                 
-        for layer in bpy.context.scene.view_layers:
-            if layer.name.endswith(self.AO_identifier):
-                add_shadow_layer(layer, collection_list)
+        if self.individual_mode == '':
+            for layer in bpy.context.scene.view_layers:
+                if layer.name.endswith(self.AO_identifier):
+                    add_shadow_layer(layer, collection_list)
+        else:
+            v = bpy.context.scene.view_layers[self.individual_mode]
+            add_shadow_layer(v, collection_list)
         
         return {'FINISHED'}
