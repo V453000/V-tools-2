@@ -80,7 +80,10 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
                 for exclude_collection_name in exclude_list:
                     if exclude_collection_name != '':
                         target_exclude_collection = find_collection(shadow_layer.layer_collection, exclude_collection_name)
-                        target_exclude_collection.exclude = True
+                        if target_exclude_collection is not None:
+                            target_exclude_collection.exclude = True
+                        else:
+                            print('Collection to exclude:', exclude_collection_name, 'not found.')
 
                 include_megalist = self.include_collections
                 include_list = include_megalist.split(megalist_separator)
@@ -88,7 +91,10 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
                 for include_collection_name in include_list:
                     if include_collection_name != '':
                         target_include_collection = find_collection(shadow_layer.layer_collection, include_collection_name)
-                        target_include_collection.exclude = False
+                        if target_include_collection is not None:
+                            target_include_collection.exclude = False
+                        else:
+                            print('Collection to include:', include_collection_name, 'not found.')
 
 
         # get the list of collections for current view layer
