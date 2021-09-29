@@ -19,12 +19,12 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
     exclude_collections : bpy.props.StringProperty(
         name = 'Exclude Collections',
         description = 'Collections to exclude for shadow passes. !!! Must be formatted as a single string, separated by ",|---|, " !!!',
-        default = 'Lighting,|---|, Ground Plane'
+        default = 'Lighting, Ground Plane'
     )
     include_collections : bpy.props.StringProperty(
         name = 'Include Collections',
         description = 'Collections to include for shadow passes. !!! Must be formatted as a single string, separated by ",|---|, " !!!',
-        default = 'Shadow Plane,|---|, Shadow Lamp'
+        default = 'Shadow Plane, Shadow Lamp'
     )
 
     def execute(self, context):
@@ -48,13 +48,19 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
             else:
                 print('No collections found in this scene.')
         
+        def force_collection_separator(collections):
+            for collection in collections.children:
+                print(collection.name)
+                bpy.data.collections[collection.name].name = collection.name.replace(', ', ',_')
+                force_collection_separator(collection)
+
         def add_shadow_layer(view_layer, collection_list):
             shadow_layer_name = view_layer.name.replace(self.AO_identifier, self.shadow_identifier)
             # check if the shadow layer already exists, if not, create it
             if bpy.context.scene.view_layers.get(shadow_layer_name) is None:
                 shadow_layer = bpy.context.scene.view_layers.new(shadow_layer_name)
             else:
-                shadow_layer = bpy.context.scene.view_layers.get(shadow_layer_name)
+                shadow_layer = bpy.context.scene.view_layers.get(shadow_layer_name)            
             # match the shadow layer's settings to the -main settings
             for collection in collection_list:
                 print(collection.name)
@@ -74,7 +80,7 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
                 if collection.holdout == True:
                     target_collection.exclude = True
                 
-                megalist_separator = ',|---|, '
+                megalist_separator = ', '
                 exclude_megalist = self.exclude_collections
                 exclude_list = exclude_megalist.split(megalist_separator)
                 for exclude_collection_name in exclude_list:
@@ -95,18 +101,16 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
                             target_include_collection.exclude = False
                         else:
                             print('Collection to include:', include_collection_name, 'not found.')
-
-
+        
+        print('-'*32)
+        # start with making sure the naming of collections is acceptable
+        force_collection_separator(bpy.context.view_layer.layer_collection)
         # get the list of collections for current view layer
         collection_list = []
         get_collections( bpy.context.view_layer.layer_collection, collection_list )
         for col in collection_list:
             print(col.name)
-        print('-'*32)
-        
-
-
-
+                
         for layer in bpy.context.scene.view_layers:
             if layer.name.endswith(self.AO_identifier):
                 add_shadow_layer(layer, collection_list)
