@@ -24,7 +24,7 @@ class VTOOLS2_OT_generate_height_layers(bpy.types.Operator):
     individual_mode : bpy.props.StringProperty(
         name = 'Individual mode',
         description = 'Turn on to only generate from one specific view layer. Leave blank if you want to process all -main layers.',
-        default = '', # if '', the script just processes everything
+        default = '',
     )
 
     def execute(self, context):
@@ -88,6 +88,7 @@ class VTOOLS2_OT_generate_height_layers(bpy.types.Operator):
                 if layer.name.endswith(self.AO_identifier):
                     add_height_layer(layer, collection_list, self.height_material_name)
         else:
-            add_height_layer(bpy.context.scene.view_layers[self.individual_mode], collection_list, self.height_material_name)
+            v = bpy.context.scene.view_layers[self.individual_mode]
+            add_height_layer(v, collection_list, self.height_material_name)
         
         return {'FINISHED'}
