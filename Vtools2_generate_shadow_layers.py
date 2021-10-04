@@ -88,6 +88,8 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
                     target_collection.indirect_only = True
                 if collection.holdout == True:
                     target_collection.exclude = True
+                if collection.indirect_only == True:
+                    target_collection.exclude = True
                 
                 megalist_separator = ', '
                 exclude_megalist = self.exclude_collections
