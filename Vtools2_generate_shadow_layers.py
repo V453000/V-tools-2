@@ -108,6 +108,8 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
                         target_include_collection = find_collection(shadow_layer.layer_collection, include_collection_name)
                         if target_include_collection is not None:
                             target_include_collection.exclude = False
+                            target_include_collection.holdout = False
+                            target_include_collection.indirect_only = False
                         else:
                             print('Collection to include:', include_collection_name, 'not found.')
         
