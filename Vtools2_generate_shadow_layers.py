@@ -128,12 +128,12 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
             for layer in bpy.context.scene.view_layers:
                 if layer.name.endswith(self.AO_identifier):
                     collection_list = []
-                    get_collections( bpy.context.view_layer.layer_collection, collection_list )
+                    get_collections( layer.layer_collection, collection_list )
                     add_shadow_layer(layer, collection_list)
         else:
             v = bpy.context.scene.view_layers[self.individual_mode]
             collection_list = []
-            get_collections( bpy.context.view_layer.layer_collection, collection_list )
+            get_collections( v.layer_collection, collection_list )
             add_shadow_layer(v, collection_list)
         
         return {'FINISHED'}

@@ -90,7 +90,7 @@ class VTOOLS2_OT_generate_height_layers(bpy.types.Operator):
         else:
             v = bpy.context.scene.view_layers[self.individual_mode]
             collection_list = []
-            get_collections( bpy.context.view_layer.layer_collection, collection_list )
+            get_collections( v.layer_collection, collection_list )
             add_height_layer(v, collection_list, self.height_material_name)
         
         return {'FINISHED'}
