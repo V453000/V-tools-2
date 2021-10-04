@@ -71,12 +71,13 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
                 shadow_layer = bpy.context.scene.view_layers.get(shadow_layer_name)            
             # match the shadow layer's settings to the -main settings
             for collection in collection_list:
-                print(collection.name)
-                print(str(collection.exclude))
+                #print(collection.name)
+                #print(str(collection.exclude))
                 #target_collection = shadow_layer.layer_collection.children.get(collection.name)
                 #target_collection = find_collection_in_children(shadow_layer.layer_collection.children, collection.name)
-                print('Searching for collection ' + collection.name + ' in ' + shadow_layer.name)
+                #print('Searching for collection ' + collection.name + ' in ' + shadow_layer.name)
                 target_collection = find_collection(shadow_layer.layer_collection, collection.name)
+                print('target collection:', target_collection.name)
 
                 target_collection.exclude       = collection.exclude
                 target_collection.holdout       = collection.holdout
@@ -114,17 +115,21 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
         # start with making sure the naming of collections is acceptable
         force_collection_separator(bpy.context.view_layer.layer_collection)
         # get the list of collections for current view layer
-        collection_list = []
-        get_collections( bpy.context.view_layer.layer_collection, collection_list )
-        for col in collection_list:
-            print(col.name)
+        # collection_list = []
+        # get_collections( bpy.context.view_layer.layer_collection, collection_list )
+        # for col in collection_list:
+        #     print(col.name)
                 
         if self.individual_mode == '':
             for layer in bpy.context.scene.view_layers:
                 if layer.name.endswith(self.AO_identifier):
+                    collection_list = []
+                    get_collections( bpy.context.view_layer.layer_collection, collection_list )
                     add_shadow_layer(layer, collection_list)
         else:
             v = bpy.context.scene.view_layers[self.individual_mode]
+            collection_list = []
+            get_collections( bpy.context.view_layer.layer_collection, collection_list )
             add_shadow_layer(v, collection_list)
         
         return {'FINISHED'}

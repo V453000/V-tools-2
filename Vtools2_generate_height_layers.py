@@ -62,12 +62,13 @@ class VTOOLS2_OT_generate_height_layers(bpy.types.Operator):
                 height_layer.material_override = bpy.data.materials.get(height_mtl_name)
             # match the height layer's settings to the -main settings
             for collection in collection_list:
-                print(collection.name)
-                print(str(collection.exclude))
+                #print(collection.name)
+                #print(str(collection.exclude))
                 #target_collection = height_layer.layer_collection.children.get(collection.name)
                 #target_collection = find_collection_in_children(height_layer.layer_collection.children, collection.name)
-                print('Searching for collection ' + collection.name + ' in ' + height_layer.name)
+                #print('Searching for collection ' + collection.name + ' in ' + height_layer.name)
                 target_collection = find_collection(height_layer.layer_collection, collection.name)
+                print('target collection:', target_collection.name)
 
                 target_collection.exclude       = collection.exclude
                 target_collection.holdout       = collection.holdout
@@ -76,19 +77,20 @@ class VTOOLS2_OT_generate_height_layers(bpy.types.Operator):
                 #target_collection.hide_render   = collection.hide_render
                 #target_collection.hide_select   = collection.hide_select
 
-        # get the list of collections for current view layer
-        collection_list = []
-        get_collections( bpy.context.view_layer.layer_collection, collection_list )
-        for col in collection_list:
-            print(col.name)
+        # for col in collection_list:
+        #     print(col.name)
         print('-'*32)
         
         if self.individual_mode == '':
             for layer in bpy.context.scene.view_layers:
                 if layer.name.endswith(self.AO_identifier):
+                    collection_list = []
+                    get_collections( layer.layer_collection, collection_list )
                     add_height_layer(layer, collection_list, self.height_material_name)
         else:
             v = bpy.context.scene.view_layers[self.individual_mode]
+            collection_list = []
+            get_collections( bpy.context.view_layer.layer_collection, collection_list )
             add_height_layer(v, collection_list, self.height_material_name)
         
         return {'FINISHED'}
