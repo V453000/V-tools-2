@@ -121,13 +121,15 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 shadow_shitter = bpy.data.node_groups.new(type = 'CompositorNodeTree', name = 'ShadowShitter')
                 # add node group sockets
                 shadow_shitter.inputs.new('NodeSocketColor', 'Shadow Pass')
+                shadow_shitter.inputs.new('NodeSocketColor', 'Alpha')
+
                 shadow_shitter.outputs.new('NodeSocketColor', 'Shadow')
                 # add nodes
                 input_node = shadow_shitter.nodes.new('NodeGroupInput')
                 input_node.location = (-200,0)
 
                 output_node = shadow_shitter.nodes.new('NodeGroupOutput')
-                output_node.location = (600,0)
+                output_node.location = (800,0)
                 
                 alpha_over_node = shadow_shitter.nodes.new(type="CompositorNodeAlphaOver")
                 alpha_over_node.name = 'ShadowShitter-alpha-over-node'
@@ -144,11 +146,19 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 set_alpha_node.label = 'ShadowShitter-set-alpha-node'
                 set_alpha_node.location = (400,0)
 
+                # second set_alpha node for region rendering support
+                set_alpha_node_2 = shadow_shitter.nodes.new(type="CompositorNodeSetAlpha")
+                set_alpha_node_2.name = 'ShadowShitter-set-alpha-node'
+                set_alpha_node_2.label = 'ShadowShitter-set-alpha-node'
+                set_alpha_node_2.location = (600,0)
+
                 # link shadow shitter nodes
                 shadow_shitter.links.new(input_node.outputs[0], alpha_over_node.inputs[2])
                 shadow_shitter.links.new(alpha_over_node.outputs[0], invert_node.inputs[1])
                 shadow_shitter.links.new(invert_node.outputs[0], set_alpha_node.inputs[1])
-                shadow_shitter.links.new(set_alpha_node.outputs[0], output_node.inputs[0])
+                shadow_shitter.links.new(set_alpha_node.outputs[0], set_alpha_node_2.inputs[0])
+                shadow_shitter.links.new(input_node.outputs[1], set_alpha_node_2.inputs[1])
+                shadow_shitter.links.new(set_alpha_node_2.outputs[0], output_node.inputs[0])
 
         def remove_existing_nodes():
             if self.remove_existing_nodes == 'Regenerate':
@@ -262,8 +272,10 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 shadow_shitter.width = x_multiplier - 30
 
                 index_shadow = input_node.outputs.find('Shadow')
+                alpha = input_node.outputs.find('Alpha')
 
                 scn.node_tree.links.new(input_node.outputs[index_shadow], shadow_shitter.inputs[0])
+                scn.node_tree.links.new(input_node.outputs[alpha], shadow_shitter.inputs[1])
                 scn.node_tree.links.new(shadow_shitter.outputs[0], output_node.inputs[0])
 
             elif view_layer_type == self.height_identifier:
