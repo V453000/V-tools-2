@@ -159,6 +159,12 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 shadow_shitter.links.new(set_alpha_node.outputs[0], set_alpha_node_2.inputs[0])
                 shadow_shitter.links.new(input_node.outputs[1], set_alpha_node_2.inputs[1])
                 shadow_shitter.links.new(set_alpha_node_2.outputs[0], output_node.inputs[0])
+            else:
+                # check if the shadow shitter doesn't has the correct alpha input
+                if bpy.data.node_groups.get('ShadowShitter').inputs.get("alpha") == None:
+                    self.report({"WARNING"}, "Aborted: ShadowShitter should be regenerated first!")
+                    return {"CANCELLED"}
+            
 
         def remove_existing_nodes():
             if self.remove_existing_nodes == 'Regenerate':
@@ -214,7 +220,8 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
         generate_HEIGHT_material()
         # generate Normal material (if settings allow)
         # generate ShadowShitter material (if settings allow)
-        generate_shadow_shitter()
+        if generate_shadow_shitter() == {"CANCELLED"}:
+            return {"CANCELLED"}
 
         # set material override on view layers that need it
         # set shadow pass on shadow view layers
