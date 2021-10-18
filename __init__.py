@@ -20,7 +20,7 @@ bl_info = {
     "name":        'V-tools-2',
     "description": 'Various tools.',
     "author":      'V453000',
-    "version":     (2, 1, 19),
+    "version":     (2, 1, 20),
     "blender":     (2, 90, 0),
     "location":    "View 3D > Tool Shelf",
     "warning":     "",  # used for warning icon and text in addons panel
