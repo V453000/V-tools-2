@@ -68,4 +68,5 @@ class VTOOLS2_PT_tools_panel(bpy.types.Panel):
         row.operator('vtools.generate_shadow_layers', text = 'Generate Shadow Layers', icon = 'LIGHT')
         row = box.row()
         row.operator('vtools.generate_render_nodes', text = 'Generate Render Nodes', icon = 'NODETREE')
-        
+        row = box.row()
+        row.operator('vtools.propagate_viewlayer_settings', text = 'Propagate Viewlayer Settings', icon = 'OUTLINER')

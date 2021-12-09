@@ -173,6 +173,7 @@ from . Vtools2_hide_all_collections        import VTOOLS2_PP_CollectionVisibilit
 from . Vtools2_hide_all_collections        import VTOOLS2_OT_hide_all_collections
 from . Vtools2_hide_all_collections        import VTOOLS2_OT_hide_all_collections_revert
 from . Vtools2_add_excluded_collection     import VTOOLS2_OT_add_excluded_collection
+from . Vtools2_propagate_viewlayer_settings import VTOOLS2_OT_propagate_viewlayer_settings
 from . properties_panels                   import VTOOLS2_PT_properties_view_layer
 from . tools_panel                         import VTOOLS2_PT_tools_panel
 
@@ -232,6 +233,7 @@ classes = (
     VTOOLS2_OT_hide_all_collections,
     VTOOLS2_OT_hide_all_collections_revert,
 
+    VTOOLS2_OT_propagate_viewlayer_settings,
     # Properties panels
     VTOOLS2_PT_properties_view_layer,
     VTOOLS2_PT_tools_panel,
