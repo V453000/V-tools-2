@@ -161,7 +161,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 shadow_shitter.links.new(set_alpha_node_2.outputs[0], output_node.inputs[0])
             else:
                 # check if the shadow shitter doesn't has the correct alpha input
-                if bpy.data.node_groups.get('ShadowShitter').inputs.get("alpha") == None:
+                if bpy.data.node_groups.get('ShadowShitter').inputs.get("Alpha") == None:
                     self.report({"WARNING"}, "Aborted: ShadowShitter should be regenerated first!")
                     return {"CANCELLED"}
             
