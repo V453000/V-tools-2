@@ -176,7 +176,7 @@ from . Vtools2_add_excluded_collection     import VTOOLS2_OT_add_excluded_collec
 from . Vtools2_propagate_viewlayer_settings import VTOOLS2_OT_propagate_viewlayer_settings
 from . properties_panels                   import VTOOLS2_PT_properties_view_layer
 from . tools_panel                         import VTOOLS2_PT_tools_panel
-from . compositor_tools_panel              import VTOOLS2_PT_compositor_tools_panel
+from . tools_panel                         import VTOOLS2_PT_compositor_tools_panel
 
 classes = (
     # Preferences
