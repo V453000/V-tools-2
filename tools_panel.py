@@ -39,21 +39,21 @@ def draw_ui(self, context, compositor:bool = False):
     row = box.row()
     row.operator('vtools.propagate_viewlayer_settings', text = 'Propagate Settings', icon = 'OUTLINER')
 
-    if not compositor:
-        box = layout.box()
-        box.label(text = 'Objects')
-        row = box.row(align = True)
-        row.operator('vtools.viewport_display', text = 'Viewport Display', icon = 'RESTRICT_VIEW_OFF')
+    #if not compositor:
+    box = layout.box()
+    box.label(text = 'Objects')
+    row = box.row(align = True)
+    row.operator('vtools.viewport_display', text = 'Viewport Display', icon = 'RESTRICT_VIEW_OFF')
 
-        box = layout.box()
-        box.label(text = 'Materials')
-        row = box.row(align = True)
-        row.operator('vtools.link_material_to', text = 'Link material to...', icon = 'LINKED')
+    box = layout.box()
+    box.label(text = 'Materials')
+    row = box.row(align = True)
+    row.operator('vtools.link_material_to', text = 'Link material to...', icon = 'LINKED')
 
-        box = layout.box()
-        box.label(text = 'Modifiers')
-        row = box.row(align = True)
-        row.operator('vtools.subsurf_settings', text = 'Subsurf Settings', icon = 'MOD_SUBSURF')
+    box = layout.box()
+    box.label(text = 'Modifiers')
+    row = box.row(align = True)
+    row.operator('vtools.subsurf_settings', text = 'Subsurf Settings', icon = 'MOD_SUBSURF')
 
     box = layout.box()
     box.label(text = 'View Layers')
