@@ -44,6 +44,9 @@ def draw_ui(self, context, compositor:bool = False):
     box.label(text = 'Objects')
     row = box.row(align = True)
     row.operator('vtools.viewport_display', text = 'Viewport Display', icon = 'RESTRICT_VIEW_OFF')
+    row = box.row(align = True)
+    row.operator('vtools.selection_save', text = 'Save Selection', icon = 'COPYDOWN')
+    row.operator('vtools.selection_load', text = 'Load Selection', icon = 'PASTEDOWN')
 
     box = layout.box()
     box.label(text = 'Materials')
