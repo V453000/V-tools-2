@@ -172,6 +172,8 @@ from . Vtools2_show_all_collections        import VTOOLS2_OT_show_all_collection
 from . Vtools2_hide_all_collections        import VTOOLS2_PP_CollectionVisibilityHide
 from . Vtools2_hide_all_collections        import VTOOLS2_OT_hide_all_collections
 from . Vtools2_hide_all_collections        import VTOOLS2_OT_hide_all_collections_revert
+from . Vtools2_selection_save              import VTOOLS2_PP_SavedSelection
+from . Vtools2_selection_save              import VTOOLS2_PP_SavedActive
 from . Vtools2_selection_save              import VTOOLS2_OT_selection_save
 from . Vtools2_selection_save              import VTOOLS2_OT_selection_load
 from . Vtools2_add_excluded_collection     import VTOOLS2_OT_add_excluded_collection
@@ -237,6 +239,8 @@ classes = (
     VTOOLS2_OT_hide_all_collections_revert,
 
     # selection saving
+    VTOOLS2_PP_SavedSelection,
+    VTOOLS2_PP_SavedActive,
     VTOOLS2_OT_selection_save,
     VTOOLS2_OT_selection_load,
 
