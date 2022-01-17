@@ -39,7 +39,7 @@ class VTOOLS2_OT_generate_height_layers(bpy.types.Operator):
             if root_collection.children is not None:
                 for child in root_collection.children:
                     if child.name == searched_name:
-                        print('Found', child.name)
+                        #print('Found', child.name)
                         return child
                     else:
                         result = find_collection(child, searched_name)
@@ -68,14 +68,16 @@ class VTOOLS2_OT_generate_height_layers(bpy.types.Operator):
                 #target_collection = find_collection_in_children(height_layer.layer_collection.children, collection.name)
                 #print('Searching for collection ' + collection.name + ' in ' + height_layer.name)
                 target_collection = find_collection(height_layer.layer_collection, collection.name)
-                print('target collection:', target_collection.name)
-
-                target_collection.exclude       = collection.exclude
-                target_collection.holdout       = collection.holdout
-                target_collection.indirect_only = collection.indirect_only
-                target_collection.hide_viewport = collection.hide_viewport
-                #target_collection.hide_render   = collection.hide_render
-                #target_collection.hide_select   = collection.hide_select
+                # if target_collection is None:
+                #     print('Generate height layers: In', view_layer, 'Target collection was "None". Skipping', collection.name, '!'*64)
+                if target_collection is not None:
+                    #print('target collection:', target_collection.name)
+                    target_collection.exclude       = collection.exclude
+                    target_collection.holdout       = collection.holdout
+                    target_collection.indirect_only = collection.indirect_only
+                    target_collection.hide_viewport = collection.hide_viewport
+                    #target_collection.hide_render   = collection.hide_render
+                    #target_collection.hide_select   = collection.hide_select
 
         # for col in collection_list:
         #     print(col.name)

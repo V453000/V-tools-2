@@ -44,7 +44,7 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
             if root_collection.children is not None:
                 for child in root_collection.children:
                     if child.name == searched_name:
-                        print('Found', child.name)
+                        #print('Found', child.name)
                         return child
                     else:
                         result = find_collection(child, searched_name)
@@ -55,7 +55,7 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
         
         def force_collection_separator(collections):
             for collection in collections.children:
-                print(collection.name)
+                #print(collection.name)
                 bpy.data.collections[collection.name].name = collection.name.replace(', ', ',_')
                 force_collection_separator(collection)
 
@@ -77,43 +77,46 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
                 #target_collection = find_collection_in_children(shadow_layer.layer_collection.children, collection.name)
                 #print('Searching for collection ' + collection.name + ' in ' + shadow_layer.name)
                 target_collection = find_collection(shadow_layer.layer_collection, collection.name)
-                print('target collection:', target_collection.name)
+                # if target_collection is None:
+                #     print('Generate shadow layers: In', view_layer,'Target collection was "None". Skipping', collection.name, '!'*64)
+                if target_collection is not None:
+                    #print('target collection:', target_collection.name)
 
-                target_collection.exclude       = collection.exclude
-                target_collection.holdout       = collection.holdout
-                target_collection.indirect_only = collection.indirect_only
-                target_collection.hide_viewport = collection.hide_viewport
+                    target_collection.exclude       = collection.exclude
+                    target_collection.holdout       = collection.holdout
+                    target_collection.indirect_only = collection.indirect_only
+                    target_collection.hide_viewport = collection.hide_viewport
 
-                if collection.exclude == False:
-                    target_collection.indirect_only = True
-                if collection.holdout == True:
-                    target_collection.exclude = True
-                if collection.indirect_only == True:
-                    target_collection.exclude = True
-                
-                megalist_separator = ', '
-                exclude_megalist = self.exclude_collections
-                exclude_list = exclude_megalist.split(megalist_separator)
-                for exclude_collection_name in exclude_list:
-                    if exclude_collection_name != '':
-                        target_exclude_collection = find_collection(shadow_layer.layer_collection, exclude_collection_name)
-                        if target_exclude_collection is not None:
-                            target_exclude_collection.exclude = True
-                        else:
-                            print('Collection to exclude:', exclude_collection_name, 'not found.')
+                    if collection.exclude == False:
+                        target_collection.indirect_only = True
+                    if collection.holdout == True:
+                        target_collection.exclude = True
+                    if collection.indirect_only == True:
+                        target_collection.exclude = True
+                    
+                    megalist_separator = ', '
+                    exclude_megalist = self.exclude_collections
+                    exclude_list = exclude_megalist.split(megalist_separator)
+                    for exclude_collection_name in exclude_list:
+                        if exclude_collection_name != '':
+                            target_exclude_collection = find_collection(shadow_layer.layer_collection, exclude_collection_name)
+                            if target_exclude_collection is not None:
+                                target_exclude_collection.exclude = True
+                            else:
+                                print('Collection to exclude:', exclude_collection_name, 'not found.')
 
-                include_megalist = self.include_collections
-                include_list = include_megalist.split(megalist_separator)
-                print(include_list)
-                for include_collection_name in include_list:
-                    if include_collection_name != '':
-                        target_include_collection = find_collection(shadow_layer.layer_collection, include_collection_name)
-                        if target_include_collection is not None:
-                            target_include_collection.exclude = False
-                            target_include_collection.holdout = False
-                            target_include_collection.indirect_only = False
-                        else:
-                            print('Collection to include:', include_collection_name, 'not found.')
+                    include_megalist = self.include_collections
+                    include_list = include_megalist.split(megalist_separator)
+                    #print(include_list)
+                    for include_collection_name in include_list:
+                        if include_collection_name != '':
+                            target_include_collection = find_collection(shadow_layer.layer_collection, include_collection_name)
+                            if target_include_collection is not None:
+                                target_include_collection.exclude = False
+                                target_include_collection.holdout = False
+                                target_include_collection.indirect_only = False
+                            else:
+                                print('Collection to include:', include_collection_name, 'not found.')
         
         print('-'*32)
         # start with making sure the naming of collections is acceptable
