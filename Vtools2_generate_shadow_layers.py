@@ -118,7 +118,7 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
                             else:
                                 print('Collection to include:', include_collection_name, 'not found.')
         
-        print('-'*32)
+        # print('-'*32)
         # start with making sure the naming of collections is acceptable
         force_collection_separator(bpy.context.view_layer.layer_collection)
         # get the list of collections for current view layer

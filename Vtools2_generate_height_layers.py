@@ -81,7 +81,7 @@ class VTOOLS2_OT_generate_height_layers(bpy.types.Operator):
 
         # for col in collection_list:
         #     print(col.name)
-        print('-'*32)
+        # print('-'*32)
         
         if self.individual_mode == '':
             for layer in bpy.context.scene.view_layers:
