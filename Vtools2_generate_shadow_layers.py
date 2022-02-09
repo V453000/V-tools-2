@@ -31,6 +31,11 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
         description = 'Turn on to only generate from one specific view layer. Leave blank if you want to process all -main layers.',
         default = '',
     )
+    automatic_indirect_only : bpy.props.BoolProperty(
+        name = 'Automatic Indirect Only',
+        description = 'Visible collection are automatically switched into indirect only.',
+        default = True
+    )
 
     def execute(self, context):
 
@@ -88,7 +93,8 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
                     target_collection.hide_viewport = collection.hide_viewport
 
                     if collection.exclude == False:
-                        target_collection.indirect_only = True
+                        if self.automatic_indirect_only == True:
+                            target_collection.indirect_only = True
                     if collection.holdout == True:
                         target_collection.exclude = True
                     if collection.indirect_only == True:
