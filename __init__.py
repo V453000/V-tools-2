@@ -163,6 +163,7 @@ from . Vtools2_render_computers            import VTOOLS2_OT_render_singlecomput
 from . Vtools2_relink_images               import VTOOLS2_OT_relink_images
 from . Vtools2_subsurf_settings            import VTOOLS2_OT_subsurf_settings
 from . Vtools2_viewport_display            import VTOOLS2_OT_viewport_display
+from . Vtools2_ray_visibility              import VTOOLS2_OT_ray_visibility
 from . Vtools2_link_material_to            import VTOOLS2_OT_link_material_to
 from . Vtools2_save_backup                 import VTOOLS2_OT_save_backup
 from . Vtools2_default_render_settings     import VTOOLS2_OT_default_render_settings
@@ -212,6 +213,9 @@ classes = (
     
     # viewport display
     VTOOLS2_OT_viewport_display,
+    
+    # ray visibility
+    VTOOLS2_OT_ray_visibility,
 
     # material link to
     VTOOLS2_OT_link_material_to,

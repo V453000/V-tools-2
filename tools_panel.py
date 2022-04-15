@@ -45,6 +45,8 @@ def draw_ui(self, context, compositor:bool = False):
     row = box.row(align = True)
     row.operator('vtools.viewport_display', text = 'Viewport Display', icon = 'RESTRICT_VIEW_OFF')
     row = box.row(align = True)
+    row.operator('vtools.ray_visibility', text = 'Ray visibility', icon = 'RESTRICT_RENDER_OFF')
+    row = box.row(align = True)
     row.operator('vtools.selection_save', text = 'Save Selection', icon = 'COPYDOWN')
     row.operator('vtools.selection_load', text = 'Load Selection', icon = 'PASTEDOWN')
 
