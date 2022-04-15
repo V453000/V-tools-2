@@ -1,7 +1,7 @@
 import bpy
 
 class VTOOLS2_OT_viewport_display(bpy.types.Operator):
-    '''Finds and replaces parts of image paths.'''
+    '''Object viewport display settings.'''
     bl_idname = 'vtools.viewport_display'
     bl_label = 'Viewport Display'
     bl_options = {'REGISTER', 'UNDO'}
