@@ -145,12 +145,15 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 set_alpha_node.name = 'ShadowShitter-set-alpha-node'
                 set_alpha_node.label = 'ShadowShitter-set-alpha-node'
                 set_alpha_node.location = (400,0)
+                set_alpha_node.mode = 'REPLACE_ALPHA'
+                set_alpha_node.inputs[0].default_value = (0,0,0,1)
 
                 # second set_alpha node for region rendering support
                 set_alpha_node_2 = shadow_shitter.nodes.new(type="CompositorNodeSetAlpha")
                 set_alpha_node_2.name = 'ShadowShitter-set-alpha-node'
                 set_alpha_node_2.label = 'ShadowShitter-set-alpha-node'
                 set_alpha_node_2.location = (600,0)
+                set_alpha_node_2.mode = 'REPLACE_ALPHA'
 
                 # link shadow shitter nodes
                 shadow_shitter.links.new(input_node.outputs[0], alpha_over_node.inputs[2])
