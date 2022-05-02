@@ -1,4 +1,3 @@
-from ast import Or
 import bpy
 
 class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
