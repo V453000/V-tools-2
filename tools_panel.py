@@ -62,10 +62,10 @@ def draw_ui(self, context, compositor:bool = False):
 
     box = layout.box()
     box.label(text = 'View Layers')
-    row = box.row()
-    row.operator('vtools.generate_height_layers', text = 'Generate Height Layers', icon = 'RENDERLAYERS')
-    row = box.row()
-    row.operator('vtools.generate_shadow_layers', text = 'Generate Shadow Layers', icon = 'LIGHT')
+    # row = box.row()
+    # row.operator('vtools.generate_height_layers', text = 'Generate Height Layers', icon = 'RENDERLAYERS')
+    # row = box.row()
+    # row.operator('vtools.generate_shadow_layers', text = 'Generate Shadow Layers', icon = 'LIGHT')
     row = box.row()
     row.operator('vtools.generate_render_nodes', text = 'Generate Render Nodes', icon = 'NODETREE')
 
