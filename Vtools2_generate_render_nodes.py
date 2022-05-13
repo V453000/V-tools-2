@@ -27,6 +27,16 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
     ],
     default = 'Keep'
     )
+    regenerate_shadow_white_material : bpy.props.EnumProperty(
+    name = 'Regenerate SHADOW WHITE material',
+    description = 'Delete the nodes in current SHADOW WHITE material and create new ones.',
+    items = [
+        #identifier   #name         #desc  #icon        #ID
+        ('Regenerate', 'Regenerate', '' ,  'CANCEL'     , 0),
+        ('Keep'      , 'Keep'      , '' ,  'FILE_TICK'  , 1)
+    ],
+    default = 'Keep'
+    )
     regenerate_shadow_shitter : bpy.props.EnumProperty(
     name = 'Regenerate Shadow Shitter',
     description = 'Delete the nodes in current SHADOW Shitter and create new ones.',
@@ -57,6 +67,16 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
     name = 'use_Z',
     description = 'Use Z/Depth pass in all View Layers that have it enabled.',
     default = False
+    )
+    shadow_white_override : bpy.props.EnumProperty(
+    name = 'shadow_white_override',
+    description = 'Shadow passes get SHADOW_WHITE override material to avoid emissive meshes causing problems.',
+    items = [
+        #identifier          #name             #desc    #icon              #ID
+        ('force_override' , 'Force override'   , '' ,  'SHADING_SOLID'    , 0),
+        ('unchanged'      , 'Unchanged'        , '' ,  'SHADING_TEXTURE'  , 1),
+        ('clear_override' , 'Clear overrides'  , '' ,  'SHADING_RENDERED' , 2)
+    ]
     )
 
     def execute(self, context):
@@ -109,6 +129,37 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 heightmtl.node_tree.links.new(mapping_node.outputs[0], separateXYZ_node.inputs[0])
                 heightmtl.node_tree.links.new(separateXYZ_node.outputs[2], emission_node.inputs[0])
                 heightmtl.node_tree.links.new(emission_node.outputs[0], material_output.inputs[0])
+
+        def generate_SHADOW_WHITE_material():
+            # check if HEIGHT material exists and remember it
+            if bpy.data.materials.get('SHADOW_WHITE') is None:
+                shadow_white_material_existed = False
+                bpy.data.materials.new('SHADOW_WHITE')
+            else:
+                shadow_white_material_existed = True
+            
+            shadow_whitemtl = bpy.data.materials['SHADOW_WHITE']
+            shadow_whitemtl.use_nodes = True
+            shadow_white_nodes = shadow_whitemtl.node_tree.nodes
+
+            if self.regenerate_shadow_white_material == 'Regenerate' or shadow_white_material_existed == False:
+                # remove existing shadow_white material nodes
+                for node in shadow_white_nodes:
+                    shadow_white_nodes.remove(node)
+            
+                # create new shadow_white material nodes
+                diffuse_node = shadow_white_nodes.new(type = 'ShaderNodeBsdfDiffuse')
+                diffuse_node.name = 'SHADOW-WHITE-Diffuse'
+                diffuse_node.label = diffuse_node.name
+                diffuse_node.location = (-200,0)
+                
+                material_output = shadow_white_nodes.new(type = 'ShaderNodeOutputMaterial')
+                material_output.name = 'HEIGHT-MaterialOutput'
+                material_output.label = material_output.name
+                material_output.location = (200,0)
+
+                # link shadow_white material nodes
+                shadow_whitemtl.node_tree.links.new(diffuse_node.outputs[0], material_output.inputs[0])
             
         def generate_shadow_shitter():
 
@@ -213,6 +264,8 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
         bpy.context.scene.use_nodes = True
         # generate HEIGHT material (if settings allow)
         generate_HEIGHT_material()
+        # generate SHADOW_WHITE material
+        generate_SHADOW_WHITE_material()
         # generate Normal material (if settings allow)
         # generate ShadowShitter material (if settings allow)
         regenerate = False
@@ -282,6 +335,11 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
             if view_layer_type == self.shadow_identifier:
                 viewlayer.use_pass_shadow = True
                 viewlayer.samples = 128
+                if self.shadow_white_override == 'force_override':
+                    viewlayer.material_override = bpy.data.materials['SHADOW_WHITE']
+                elif self.shadow_white_override == 'clear_override':
+                    viewlayer.material_override = None
+
                 shadow_shitter = nodes.new('CompositorNodeGroup')
                 shadow_shitter.node_tree = bpy.data.node_groups['ShadowShitter']
                 shadow_shitter.name = viewlayer.name + '-ShadowShitter'
