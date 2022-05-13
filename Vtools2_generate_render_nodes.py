@@ -334,7 +334,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
             
             if view_layer_type == self.shadow_identifier:
                 viewlayer.use_pass_shadow = True
-                viewlayer.samples = 128
+                viewlayer.samples = 0
                 if self.shadow_white_override == 'force_override':
                     viewlayer.material_override = bpy.data.materials['SHADOW_WHITE']
                 elif self.shadow_white_override == 'clear_override':
