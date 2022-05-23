@@ -63,6 +63,11 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
     description = 'Suffix or appendix in the name of RenderLayer for rendering Height.',
     default = 'height'
     )
+    noalpha_identifier : bpy.props.StringProperty(
+    name = 'No alpha Identifier',
+    description = 'Suffix or appendix in the name of RenderLayer for rendering a layer without alpha (Saves images as RGB instead of RGBA).',
+    default = 'noalpha'
+    )
     use_Z_pass : bpy.props.BoolProperty(
     name = 'use_Z',
     description = 'Use Z/Depth pass in all View Layers that have it enabled.',
@@ -221,10 +226,12 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
             AO_identifier      = '-' + self.AO_identifier
             shadow_identifier  = '-' + self.shadow_identifier
             height_identifier  = '-' + self.height_identifier
+            noalpha_identifier = '-' + self.noalpha_identifier
 
             view_layer_appendix_AO      = view_layer_name[-len(AO_identifier):]
             view_layer_appendix_shadow  = view_layer_name[-len(shadow_identifier):]
             view_layer_appendix_height  = view_layer_name[-len(height_identifier):]
+            view_layer_appendix_noalpha = view_layer_name[-len(noalpha_identifier):]
 
             if view_layer_appendix_AO == AO_identifier:
                 view_layer_type = self.AO_identifier
@@ -232,6 +239,8 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 view_layer_type = self.shadow_identifier
             elif view_layer_appendix_height == height_identifier:
                 view_layer_type = self.height_identifier
+            elif view_layer_appendix_noalpha == noalpha_identifier:
+                view_layer_type = self.noalpha_identifier
             else:
                 view_layer_type = ''
 
@@ -327,6 +336,8 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
 
             output_node.base_path = output_folder + scn.name + '\\' + scn.name + '_' + viewlayer.name
             output_node.format.color_mode = 'RGBA'
+            if view_layer_type == self.noalpha_identifier:
+                output_node.format.color_mode = 'RGB'
             
             # remove output node default input socket
             output_node.file_slots.remove(output_node.inputs[0])
