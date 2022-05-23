@@ -162,6 +162,7 @@ from . Vtools2_render_computers            import VTOOLS2_OT_render_multicompute
 from . Vtools2_render_computers            import VTOOLS2_OT_render_singlecomputer
 from . Vtools2_relink_images               import VTOOLS2_OT_relink_images
 from . Vtools2_subsurf_settings            import VTOOLS2_OT_subsurf_settings
+from . Vtools2_apply_modifiers             import VTOOLS2_OT_apply_modifiers
 from . Vtools2_viewport_display            import VTOOLS2_OT_viewport_display
 from . Vtools2_ray_visibility              import VTOOLS2_OT_ray_visibility
 from . Vtools2_link_material_to            import VTOOLS2_OT_link_material_to
@@ -210,6 +211,9 @@ classes = (
 
     # subsurf settings
     VTOOLS2_OT_subsurf_settings,
+
+    # apply modifiers
+    VTOOLS2_OT_apply_modifiers,
     
     # viewport display
     VTOOLS2_OT_viewport_display,

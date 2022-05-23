@@ -59,6 +59,8 @@ def draw_ui(self, context, compositor:bool = False):
     box.label(text = 'Modifiers')
     row = box.row(align = True)
     row.operator('vtools.subsurf_settings', text = 'Subsurf Settings', icon = 'MOD_SUBSURF')
+    row = box.row(align = True)
+    row.operator('vtools.apply_modifiers', text = 'Apply Modifiers', icon = 'CHECKMARK')
 
     box = layout.box()
     box.label(text = 'View Layers')
