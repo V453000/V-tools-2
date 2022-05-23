@@ -11,6 +11,8 @@ class VTOOLS2_OT_render_multicomputer(bpy.types.Operator):
         scn = bpy.context.scene
 
         scn.render.filepath = '//cache\\\\' + scn.name + '/' + scn.name + '-cache_'
+        scn.render.image_settings.file_format = 'PNG'
+        scn.render.imate_settings.color_mode = 'RGBA'
         scn.render.use_overwrite = False
         scn.render.use_placeholder = True
         
@@ -27,6 +29,8 @@ class VTOOLS2_OT_render_singlecomputer(bpy.types.Operator):
         scn = bpy.context.scene
 
         scn.render.filepath = '//OUTPUT\\\\x\\x_'
+        scn.render.image_settings.file_format = 'PNG'
+        scn.render.imate_settings.color_mode = 'RGBA'
         scn.render.use_overwrite = True
         scn.render.use_placeholder = False
         
