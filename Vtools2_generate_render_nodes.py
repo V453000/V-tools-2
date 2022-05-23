@@ -246,6 +246,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
             pass_output_node.location = (input_node.location[0] + 1500, input_node.location[1] - (output_extra_height * output_extra_height_multiplier)) 
             pass_output_node.width = x_multiplier - 30 + 150 + 150
             pass_output_node.base_path = output_folder + scn.name + '\\' + scn.name + '_' + viewlayer.name + '_' + pass_name
+            pass_output_node.format.color_mode = 'RGBA'
 
             # clear file slots and add a new one
             pass_output_node.file_slots.remove(pass_output_node.inputs[0])
@@ -325,6 +326,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
             output_node.width = x_multiplier -30 + 150
 
             output_node.base_path = output_folder + scn.name + '\\' + scn.name + '_' + viewlayer.name
+            output_node.format.color_mode = 'RGBA'
             
             # remove output node default input socket
             output_node.file_slots.remove(output_node.inputs[0])
@@ -382,6 +384,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                     output_node_AO.file_slots.new(scn.name + '_' + viewlayer.name + '-AO' + '_')
 
                     output_node_AO.base_path = output_folder + scn.name + '\\' + scn.name + '_' + viewlayer.name + '-AO'
+                    output_node_AO.format.color_mode = 'RGBA'
 
                     index_AO = input_node.outputs.find('AO')
                     scn.node_tree.links.new(input_node.outputs[index_AO], output_node_AO.inputs[0])
@@ -458,6 +461,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 aov_output_node.width = x_multiplier -30 + 150
                 
                 aov_output_node.base_path = output_folder + scn.name + '\\' + scn.name + '_' + viewlayer.name + '_' + 'AOV-' + aov.name
+                aov_output_node.format.color_mode = 'RGBA'
 
                 aov_output_node.file_slots.remove(aov_output_node.inputs[0])
                 aov_output_node.file_slots.new(scn.name + '_' + viewlayer.name + '_' + 'AOV-' + aov.name + '_')
