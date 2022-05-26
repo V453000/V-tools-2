@@ -123,8 +123,68 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
             height_value_node_group.links.new(input_node.outputs[0], map_range_node.inputs[2] )
             height_value_node_group.links.new(input_node.outputs[1], map_range_node.inputs[1] )
             height_value_node_group.links.new(map_range_node.outputs[0], output_node.inputs[0] )
+        
+        
+        def generate_HEIGHT_debug_group():
+            # re-generate internal nodes for HEIGHT material
+            if bpy.data.node_groups.get('Height Debug') == None:
+                height_debug_node_group = bpy.data.node_groups.new(type = 'ShaderNodeTree', name = 'Height Debug')
+            else:
+                height_debug_node_group = bpy.data.node_groups.get('Height Debug')
+
+            height_debug_node_group.nodes.clear()
+
+            if height_debug_node_group.inputs.get('Height') == None:
+                height_debug_node_group.inputs.new('NodeSocketFloat', 'Height')
+
+            if height_debug_node_group.inputs.get('On/Off') == None:
+                height_debug_node_group.inputs.new('NodeSocketFloat', 'On/Off')
+
+            if height_debug_node_group.outputs.get('Color') == None:
+                height_debug_node_group.outputs.new('NodeSocketColor', 'Color')
+
+            input_node = height_debug_node_group.nodes.new('NodeGroupInput')
+            input_node.location = (-200, 0)
+
+            output_node = height_debug_node_group.nodes.new('NodeGroupOutput')
+            output_node.location = (1000, 0)
+
+            greater_than_node = height_debug_node_group.nodes.new('ShaderNodeMath')
+            greater_than_node.operation = 'GREATER_THAN'
+            greater_than_node.inputs[1].default_value = 0.999
+            greater_than_node.location = (0, -300)
+
+            mix_greater_than_node = height_debug_node_group.nodes.new('ShaderNodeMixRGB')
+            mix_greater_than_node.inputs[2].default_value = (1, 0, 1, 1)
+            mix_greater_than_node.location = (200, -50)
+
+            less_than_node = height_debug_node_group.nodes.new('ShaderNodeMath')
+            less_than_node.operation = 'LESS_THAN'
+            less_than_node.inputs[1].default_value = 0.001
+            less_than_node.location = (400, -300)
+
+            mix_less_than_node = height_debug_node_group.nodes.new('ShaderNodeMixRGB')
+            mix_less_than_node.inputs[2].default_value = (0, 0, 1, 1)
+            mix_less_than_node.location = (600, -50)
+
+            mix_switcher_node = height_debug_node_group.nodes.new('ShaderNodeMixRGB')
+            mix_switcher_node.location = (800, 100)
 
 
+            height_debug_node_group.links.new(input_node.outputs[0], greater_than_node.inputs[0] )
+            height_debug_node_group.links.new(input_node.outputs[0], less_than_node.inputs[0] )
+            height_debug_node_group.links.new(input_node.outputs[0], mix_switcher_node.inputs[1] )
+            height_debug_node_group.links.new(input_node.outputs[0], mix_greater_than_node.inputs[1] )
+            
+            height_debug_node_group.links.new(greater_than_node.outputs[0], mix_greater_than_node.inputs[0] )
+
+            height_debug_node_group.links.new(less_than_node.outputs[0], mix_less_than_node.inputs[0] )
+            height_debug_node_group.links.new(mix_greater_than_node.outputs[0], mix_less_than_node.inputs[1] )
+
+            height_debug_node_group.links.new(input_node.outputs[1], mix_switcher_node.inputs[0] )
+            height_debug_node_group.links.new(mix_less_than_node.outputs[0], mix_switcher_node.inputs[2] )
+
+            height_debug_node_group.links.new(mix_switcher_node.outputs[0], output_node.inputs[0] )
 
 
             
@@ -319,6 +379,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
         bpy.context.scene.use_nodes = True
         # generate HEIGHT material (if settings allow)
         generate_HEIGHT_value_group()
+        generate_HEIGHT_debug_group()
         generate_HEIGHT_material()
         # generate SHADOW_WHITE material
         generate_SHADOW_WHITE_material()
