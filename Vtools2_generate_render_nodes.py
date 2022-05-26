@@ -207,22 +207,32 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 for node in height_nodes:
                     height_nodes.remove(node)
             
-                # create new height material nodes
-                geometry_node = height_nodes.new(type = 'ShaderNodeNewGeometry')
-                geometry_node.name = 'HEIGHT-Geometry'
-                geometry_node.label = geometry_node.name
-                geometry_node.location = (-400,0)
+                # # create new height material nodes
+                # geometry_node = height_nodes.new(type = 'ShaderNodeNewGeometry')
+                # geometry_node.name = 'HEIGHT-Geometry'
+                # geometry_node.label = geometry_node.name
+                # geometry_node.location = (-400,0)
                 
-                mapping_node = height_nodes.new(type = 'ShaderNodeMapping')
-                mapping_node.name = 'HEIGHT-Mapping'
-                mapping_node.label = mapping_node.name
-                mapping_node.location = (-200,0)
-                mapping_node.inputs[3].default_value[2] = 0.1
+                # mapping_node = height_nodes.new(type = 'ShaderNodeMapping')
+                # mapping_node.name = 'HEIGHT-Mapping'
+                # mapping_node.label = mapping_node.name
+                # mapping_node.location = (-200,0)
+                # mapping_node.inputs[3].default_value[2] = 0.1
 
-                separateXYZ_node = height_nodes.new(type = 'ShaderNodeSeparateXYZ')
-                separateXYZ_node.name = 'HEIGHT-SeparateXYZ'
-                separateXYZ_node.label = separateXYZ_node.name
-                separateXYZ_node.location = (180,0)
+                # separateXYZ_node = height_nodes.new(type = 'ShaderNodeSeparateXYZ')
+                # separateXYZ_node.name = 'HEIGHT-SeparateXYZ'
+                # separateXYZ_node.label = separateXYZ_node.name
+                # separateXYZ_node.location = (180,0)
+
+                height_value_node = height_nodes.new('ShaderNodeGroup')
+                height_value_node.node_tree = bpy.data.node_groups['Height Value']
+                height_value_node.inputs[0].default_value = 3
+                height_value_node.inputs[1].default_value = -2
+                height_value_node.location = (0,0)
+
+                height_debug_node = height_nodes.new('ShaderNodeGroup')
+                height_debug_node.node_tree = bpy.data.node_groups['Height Debug']
+                height_debug_node.location = (180,0)
 
                 emission_node = height_nodes.new(type = 'ShaderNodeEmission')
                 emission_node.name = 'HEIGHT-Emission'
@@ -235,9 +245,11 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 material_output.location = (580,0)
 
                 # link height material nodes
-                heightmtl.node_tree.links.new(geometry_node.outputs[0], mapping_node.inputs[0])
-                heightmtl.node_tree.links.new(mapping_node.outputs[0], separateXYZ_node.inputs[0])
-                heightmtl.node_tree.links.new(separateXYZ_node.outputs[2], emission_node.inputs[0])
+                # heightmtl.node_tree.links.new(geometry_node.outputs[0], mapping_node.inputs[0])
+                # heightmtl.node_tree.links.new(mapping_node.outputs[0], separateXYZ_node.inputs[0])
+                # heightmtl.node_tree.links.new(separateXYZ_node.outputs[2], emission_node.inputs[0])
+                heightmtl.node_tree.links.new(height_value_node.outputs[0], height_debug_node.inputs[0])
+                heightmtl.node_tree.links.new(height_debug_node.outputs[0], emission_node.inputs[0])
                 heightmtl.node_tree.links.new(emission_node.outputs[0], material_output.inputs[0])
 
         def generate_SHADOW_WHITE_material():
