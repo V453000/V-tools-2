@@ -85,6 +85,51 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
     )
 
     def execute(self, context):
+        def generate_HEIGHT_value_group():
+            # re-generate internal nodes for HEIGHT material
+            if bpy.data.node_groups.get('Height Value') == None:
+                height_value_node_group = bpy.data.node_groups.new(type = 'ShaderNodeTree', name = 'Height Value')
+            else:
+                height_value_node_group = bpy.data.node_groups.get('Height Value')
+
+            height_value_node_group.nodes.clear()
+
+            if height_value_node_group.inputs.get('Highest (White)') == None:
+                height_value_node_group.inputs.new('NodeSocketFloat', 'Highest (White)')
+
+            if height_value_node_group.inputs.get('Lowest (Black)') == None:
+                height_value_node_group.inputs.new('NodeSocketFloat', 'Lowest (Black)')
+            
+            if height_value_node_group.outputs.get('Height') == None:
+                height_value_node_group.outputs.new('NodeSocketFloat', 'Height')
+
+            input_node = height_value_node_group.nodes.new('NodeGroupInput')
+            input_node.location = (-200, 50)
+
+            output_node = height_value_node_group.nodes.new('NodeGroupOutput')
+            output_node.location = (200, 200)
+
+            geometry_node = height_value_node_group.nodes.new('ShaderNodeNewGeometry')
+            geometry_node.location = (-400, 200)
+
+            separate_XYZ_node = height_value_node_group.nodes.new('ShaderNodeSeparateXYZ')
+            separate_XYZ_node.location = (-200, 200)
+
+            map_range_node = height_value_node_group.nodes.new('ShaderNodeMapRange')
+            map_range_node.location = (0 , 200)
+
+            height_value_node_group.links.new(geometry_node.outputs[0], separate_XYZ_node.inputs[0] )
+            height_value_node_group.links.new(separate_XYZ_node.outputs[2], map_range_node.inputs[0] )
+            height_value_node_group.links.new(input_node.outputs[0], map_range_node.inputs[2] )
+            height_value_node_group.links.new(input_node.outputs[1], map_range_node.inputs[1] )
+            height_value_node_group.links.new(map_range_node.outputs[0], output_node.inputs[0] )
+
+
+
+
+            
+
+
         def generate_HEIGHT_material():
             # check if HEIGHT material exists and remember it
             if bpy.data.materials.get('HEIGHT') is None:
@@ -273,6 +318,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
         # basic settings
         bpy.context.scene.use_nodes = True
         # generate HEIGHT material (if settings allow)
+        generate_HEIGHT_value_group()
         generate_HEIGHT_material()
         # generate SHADOW_WHITE material
         generate_SHADOW_WHITE_material()
