@@ -161,6 +161,7 @@ from . Vtools2_images_unpack               import VTOOLS2_OT_images_unpack
 from . Vtools2_render_computers            import VTOOLS2_OT_render_multicomputer
 from . Vtools2_render_computers            import VTOOLS2_OT_render_singlecomputer
 from . Vtools2_relink_images               import VTOOLS2_OT_relink_images
+from . Vtools2_relink_images_relative      import VTOOLS2_OT_relink_images_relative
 from . Vtools2_subsurf_settings            import VTOOLS2_OT_subsurf_settings
 from . Vtools2_apply_modifiers             import VTOOLS2_OT_apply_modifiers
 from . Vtools2_viewport_display            import VTOOLS2_OT_viewport_display
@@ -208,6 +209,7 @@ classes = (
 
     # relink images
     VTOOLS2_OT_relink_images,
+    VTOOLS2_OT_relink_images_relative,
 
     # subsurf settings
     VTOOLS2_OT_subsurf_settings,

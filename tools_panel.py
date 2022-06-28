@@ -14,6 +14,7 @@ def draw_ui(self, context, compositor:bool = False):
     row.operator('vtools.images_unpack', text = 'Unpack Images', icon = 'EXPORT')
     row = box.row()
     row.operator('vtools.relink_images', text = 'Relink Images', icon = 'LIBRARY_DATA_BROKEN')
+    row.operator('vtools.relink_images_relative', text = 'Relative Paths', icon = 'CON_FOLLOWPATH')
     
     box = layout.box()
     box.label(text = 'Render settings')
