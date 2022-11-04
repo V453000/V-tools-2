@@ -29,12 +29,17 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
     individual_mode : bpy.props.StringProperty(
         name = 'Individual Mode',
         description = 'Turn on to only generate from one specific view layer. Leave blank if you want to process all -main layers.',
-        default = '',
+        default = ''
     )
     automatic_indirect_only : bpy.props.BoolProperty(
         name = 'Automatic Indirect Only',
         description = 'Visible collection are automatically switched into indirect only.',
         default = True
+    )
+    material_override : bpy.props.StringProperty(
+        name = 'Material override',
+        description = 'Set material override.',
+        default = ''
     )
 
     def execute(self, context):
@@ -73,7 +78,10 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
             if bpy.context.scene.view_layers.get(shadow_layer_name) is None:
                 shadow_layer = bpy.context.scene.view_layers.new(shadow_layer_name)
             else:
-                shadow_layer = bpy.context.scene.view_layers.get(shadow_layer_name)            
+                shadow_layer = bpy.context.scene.view_layers.get(shadow_layer_name)
+            if self.material_override != '':
+                if bpy.data.materials.get(self.material_override) is not None:
+                    shadow_layer.material_override = bpy.data.materials.get(self.material_override)
             # match the shadow layer's settings to the -main settings
             for collection in collection_list:
                 #print(collection.name)
