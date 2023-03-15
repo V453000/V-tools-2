@@ -70,9 +70,10 @@ def draw_ui(self, context, compositor:bool = False):
     # row = box.row()
     # row.operator('vtools.generate_shadow_layers', text = 'Generate Shadow Layers', icon = 'LIGHT')
     row = box.row()
-    row.operator('vtools.generate_render_nodes', text = 'Generate Render Nodes', icon = 'NODETREE')
-    row = box.row()
     row.operator('vtools.sort_view_layers', text = 'Sort View Layers', icon = 'RENDERLAYERS')
+    row = box.row()
+    row.operator('vtools.generate_render_nodes', text = 'Generate Render Nodes', icon = 'NODETREE')
+
 
 
 class VTOOLS2_PT_tools_panel(bpy.types.Panel):
