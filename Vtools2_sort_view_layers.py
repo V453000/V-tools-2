@@ -24,7 +24,9 @@ class VTOOLS2_OT_sort_view_layers(bpy.types.Operator):
             bpy.ops.scene.view_layer_remove()
 
         #fix names
+        i = 0
         for view_layer in bpy.context.scene.view_layers:
-            view_layer.name = view_layer.name.replace("_001", "")
+            view_layer.name = list(sorted_view_layer_dict.keys())[i]
+            i += 1
             
         return {'FINISHED'}
