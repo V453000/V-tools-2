@@ -61,6 +61,11 @@ class VTOOLS2_OT_generate_height_layers(bpy.types.Operator):
             if bpy.data.materials.get(height_mtl_name) is not None:
                 height_layer.material_override = bpy.data.materials.get(height_mtl_name)
             # match the height layer's settings to the -main settings
+
+            # Copying custom properties of viewlayers
+            for prop_name in view_layer.keys():
+                height_layer[prop_name] = view_layer[prop_name]
+
             for collection in collection_list:
                 #print(collection.name)
                 #print(str(collection.exclude))

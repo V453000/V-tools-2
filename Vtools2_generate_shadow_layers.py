@@ -83,6 +83,11 @@ class VTOOLS2_OT_generate_shadow_layers(bpy.types.Operator):
                 if bpy.data.materials.get(self.material_override) is not None:
                     shadow_layer.material_override = bpy.data.materials.get(self.material_override)
             # match the shadow layer's settings to the -main settings
+
+            # Copying custom properties of viewlayers
+            for prop_name in view_layer.keys():
+                shadow_layer[prop_name] = view_layer[prop_name]
+
             for collection in collection_list:
                 #print(collection.name)
                 #print(str(collection.exclude))
