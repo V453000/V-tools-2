@@ -156,6 +156,7 @@ from . Vtools2_view_layer_list             import VTOOLS2_PT_View_Layer_List_Pan
 from . Vtools2_view_layer_list             import VTOOLS2_OT_ViewLayerListNewItem
 from . Vtools2_view_layer_list             import VTOOLS2_OT_ViewLayerListDeleteItem
 from . Vtools2_view_layer_list             import VTOOLS2_OT_ViewLayerListRefresh
+from . Vtools2_sort_view_layers            import VTOOLS2_OT_sort_view_layers
 from . Vtools2_images_pack                 import VTOOLS2_OT_images_pack
 from . Vtools2_images_unpack               import VTOOLS2_OT_images_unpack
 from . Vtools2_render_computers            import VTOOLS2_OT_render_multicomputer
@@ -202,6 +203,9 @@ classes = (
     VTOOLS2_OT_ViewLayerListNewItem,
     VTOOLS2_OT_ViewLayerListDeleteItem,
     VTOOLS2_OT_ViewLayerListRefresh,
+
+    # sorting view layers
+    VTOOLS2_OT_sort_view_layers,
 
     # packing images
     VTOOLS2_OT_images_pack,
