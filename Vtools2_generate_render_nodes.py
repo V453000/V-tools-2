@@ -88,20 +88,29 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
         def generate_HEIGHT_value_group():
             # re-generate internal nodes for HEIGHT material
             if bpy.data.node_groups.get('Height Value') == None:
-                height_value_node_group = bpy.data.node_groups.new(type = 'ShaderNodeTree', name = 'Height Value')
+                height_value_node_group = bpy.data.node_groups.new(name = 'Height Value', type = 'ShaderNodeTree')
             else:
                 height_value_node_group = bpy.data.node_groups.get('Height Value')
 
             height_value_node_group.nodes.clear()
 
-            if height_value_node_group.inputs.get('Highest (White)') == None:
-                height_value_node_group.inputs.new('NodeSocketFloat', 'Highest (White)')
+            if height_value_node_group.interface.items_tree.get('Highest (White)') == None:
+                height_value_node_group.interface.new_socket(
+                        name = 'Highest (White)',
+                        in_out = 'INPUT',
+                        socket_type ='NodeSocketFloat')
 
-            if height_value_node_group.inputs.get('Lowest (Black)') == None:
-                height_value_node_group.inputs.new('NodeSocketFloat', 'Lowest (Black)')
+            if height_value_node_group.interface.items_tree.get('Lowest (Black)') == None:
+                height_value_node_group.interface.new_socket(
+                        name = 'Lowest (Black)',
+                        in_out = 'INPUT',
+                        socket_type = 'NodeSocketFloat')
             
-            if height_value_node_group.outputs.get('Height') == None:
-                height_value_node_group.outputs.new('NodeSocketFloat', 'Height')
+            if height_value_node_group.interface.items_tree.get('Height') == None:
+                height_value_node_group.interface.new_socket(
+                        name = 'Height',
+                        in_out ='OUTPUT',
+                        socket_type = 'NodeSocketFloat')
 
             input_node = height_value_node_group.nodes.new('NodeGroupInput')
             input_node.location = (-200, 50)
@@ -128,20 +137,29 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
         def generate_HEIGHT_debug_group():
             # re-generate internal nodes for HEIGHT material
             if bpy.data.node_groups.get('Height Debug') == None:
-                height_debug_node_group = bpy.data.node_groups.new(type = 'ShaderNodeTree', name = 'Height Debug')
+                height_debug_node_group = bpy.data.node_groups.new(name = 'Height Debug', type = 'ShaderNodeTree')
             else:
                 height_debug_node_group = bpy.data.node_groups.get('Height Debug')
 
             height_debug_node_group.nodes.clear()
 
-            if height_debug_node_group.inputs.get('Height') == None:
-                height_debug_node_group.inputs.new('NodeSocketFloat', 'Height')
+            if height_debug_node_group.interface.items_tree.get('Height') == None:
+                height_debug_node_group.interface.new_socket(
+                        name = 'Height',
+                        in_out = 'INPUT',
+                        socket_type ='NodeSocketFloat')
 
-            if height_debug_node_group.inputs.get('On/Off') == None:
-                height_debug_node_group.inputs.new('NodeSocketFloat', 'On/Off')
+            if height_debug_node_group.interface.items_tree.get('On/Off') == None:
+                height_debug_node_group.interface.new_socket(
+                        name = 'On/Off',
+                        in_out = 'INPUT',
+                        socket_type ='NodeSocketFloat')
 
-            if height_debug_node_group.outputs.get('Color') == None:
-                height_debug_node_group.outputs.new('NodeSocketColor', 'Color')
+            if height_debug_node_group.interface.items_tree.get('Color') == None:
+                height_debug_node_group.interface.new_socket(
+                        name = 'Color',
+                        in_out = 'OUTPUT',
+                        socket_type ='NodeSocketColor')
 
             input_node = height_debug_node_group.nodes.new('NodeGroupInput')
             input_node.location = (-200, 0)
@@ -287,12 +305,24 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
 
 
                 # create Shadow Shitter
-                shadow_shitter = bpy.data.node_groups.new(type = 'CompositorNodeTree', name = 'ShadowShitter')
+                shadow_shitter = bpy.data.node_groups.new(name = 'ShadowShitter', type = 'CompositorNodeTree')
                 # add node group sockets
-                shadow_shitter.inputs.new('NodeSocketColor', 'Shadow Pass')
-                shadow_shitter.inputs.new('NodeSocketColor', 'Alpha')
 
-                shadow_shitter.outputs.new('NodeSocketColor', 'Shadow')
+                shadow_shitter.interface.new_socket(
+                        name = 'Shadow Pass',
+                        in_out = 'INPUT',
+                        socket_type ='NodeSocketColor')
+                
+                shadow_shitter.interface.new_socket(
+                        name = 'Alpha',
+                        in_out = 'INPUT',
+                        socket_type ='NodeSocketFloat')
+                
+                shadow_shitter.interface.new_socket(
+                        name = 'Shadow',
+                        in_out = 'OUTPUT',
+                        socket_type ='NodeSocketColor')
+                
                 # add nodes
                 input_node = shadow_shitter.nodes.new('NodeGroupInput')
                 input_node.location = (-200,0)
@@ -403,7 +433,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
             regenerate = True
         else:
             # check if the shadow shitter doesn't has the correct alpha input
-            if bpy.data.node_groups.get('ShadowShitter').inputs.get("Alpha") == None:
+            if bpy.data.node_groups.get('ShadowShitter').interface.items_tree.get("Alpha") == None:
                 regenerate = True
 
             # destroy shadow shitter first, if set to 'Regenerate'
@@ -481,7 +511,7 @@ class VTOOLS2_OT_generate_render_nodes(bpy.types.Operator):
                 x_count += 1
                 shadow_shitter.width = x_multiplier - 30
 
-                index_shadow = input_node.outputs.find('Shadow')
+                index_shadow = input_node.outputs.find('Image')
                 alpha = input_node.outputs.find('Alpha')
 
                 scn.node_tree.links.new(input_node.outputs[index_shadow], shadow_shitter.inputs[0])
